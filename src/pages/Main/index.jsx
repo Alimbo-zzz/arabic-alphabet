@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import {Icon} from '@/components';
 import {Animate} from '@/contexts';
-import a1 from '@sounds/base/1.mp3'
 
 
 function Main (props) {
@@ -49,8 +48,6 @@ function Main (props) {
 				<div className={cls.wrap__tiles}>
 					{tiles.map(RenderTile)}
 				</div>
-
-				<audio src={a1} controls></audio>
 			</div>
 		</Animate>
 	</>);
