@@ -1,0 +1,14 @@
+.wrapper {
+	overflow-x: hidden;
+	min-width: $min-width;
+	margin: 0 auto;
+	position: relative;
+	height: 100vh;
+	overflow-x: hidden;
+}
+
+.container {
+	width: calc(100% - 20px);
+	margin: 0 auto;
+	max-width: $phone;
+}

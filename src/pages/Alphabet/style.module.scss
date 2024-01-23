@@ -1,0 +1,139 @@
+
+.wrap{
+	padding-bottom: 20%;
+	padding-top: 10%;
+}
+
+.description{
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	margin: 40px 0;
+	padding-left: 26%;
+
+	h4{
+		&:nth-child(4){
+			color: brown;
+		}
+		&:nth-child(3){
+			color: blueviolet;
+		}
+		&:nth-child(2){
+			color: goldenrod;
+		}
+		&:nth-child(1){
+			color: gray;
+		}
+	}
+
+}
+
+.list{
+	display: flex;
+	flex-direction: column;
+	border: 1px solid gray;
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+
+
+
+.item{
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	// border: 1px solid gray;
+	padding: 8px 0;
+	user-select: none;
+	position: relative;
+
+
+	&::before{
+		content: '';
+		position: absolute;
+		left: 0;top: 10%;
+		width: 100%;
+		height: 0.9px;
+		background: gray;
+		opacity: 0.3;
+	}
+	&::after{
+		content: '';
+		position: absolute;
+		left: 0;top: 43%;
+		width: 100%;
+		height: 0.9px;
+		background: gray;
+		opacity: 0.3;
+	}
+
+	&:first-child{
+		border-top-right-radius: 15px;
+		border-top-left-radius: 15px;
+
+		&::before, &::after{
+			content: none;
+		}
+	}
+	&:last-child{
+		border-bottom-right-radius: 15px;
+		border-bottom-left-radius: 15px;
+	}
+
+
+	&:nth-child(12), &:nth-child(11){
+		h4{margin-bottom: -12px;}
+	}
+
+	h4{
+		text-align: center;
+		font-size: 40px;
+
+		&:nth-child(1){
+			color: brown;
+		}
+		&:nth-child(2){
+			color: blueviolet;
+		}
+		&:nth-child(3){
+			color: goldenrod;
+		}
+		&:nth-child(4){
+			color: gray;
+		}
+	}
+
+	button{
+		grid-column: 1/5;
+		grid-row: 2;
+		text-align: center;
+		border: none;
+		max-width: 150px;
+		cursor: pointer;
+		padding: 6px 0;
+		margin: 20px auto;
+		width: 100%;
+		box-shadow: 2px 5px 5px rgba($color: #000000, $alpha: 0.2);
+		background: transparent;
+		border: 1px solid rgb(0,24,105);
+		color: rgb(0,24,105);
+		border-radius: 8px;
+
+		transition: 0.2s;
+
+		&:disabled{
+			pointer-events: none;
+		}
+
+
+		&[data-active='true']{
+			transform: scale(0.9);
+			box-shadow: 0px 0px 0px rgba($color: #000000, $alpha: 0.2);	
+			background: linear-gradient(138deg, rgba(0,24,105,1) 0%, rgba(78,116,191,1) 100%);
+			color: #fff;
+			border-color: transparent;
+			border-radius: 12px;
+		}
+	}
+}
+
