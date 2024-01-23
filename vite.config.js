@@ -1,18 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
-import vercel from 'vite-plugin-vercel';
+// import vercel from 'vite-plugin-vercel';
 
 import { resolve } from 'path';
 const src = resolve(__dirname, './src');
 const _public = resolve(__dirname, './public');
 
 export default defineConfig({
-  // base: '',
+  base: '/',
   plugins: [
     react(),
     legacy({ targets: ['IE >= 11'] }),
-    vercel(),
+    // vercel(),
   ],
   server: { port: 3030 },
   build: { minify: true },
