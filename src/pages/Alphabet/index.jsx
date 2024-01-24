@@ -40,6 +40,8 @@ function Alphabet (props) {
 		}, 1800);
 
 	}  
+
+	const getSoundSrc = (index) => getSounds('obj')[(index + 1) + '.mp3'];
  
 	
 	const LetterRender = (el, i) => (
@@ -49,6 +51,7 @@ function Alphabet (props) {
 			<h4>{AlphabetData[el][2]}</h4>
 			<h4>{AlphabetData[el][1]}</h4>
 			<button onClick={(btn) => playSound(btn.target, i)}>{AlphabetData[el][0]}</button>
+			<audio src={'sounds/' + (i + 1) + '.mp3'} controls={true} />
 		</li>
 	)
 	

@@ -125,6 +125,14 @@
 			pointer-events: none;
 		}
 
+		audio{
+			grid-column: 1/5;
+			border: 1px solid red;
+			display: block;
+			height: 20px;
+			width: 100%;
+		}
+
 
 		&[data-active='true']{
 			transform: scale(0.9);
