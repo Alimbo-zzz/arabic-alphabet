@@ -40,7 +40,7 @@ function Alphabet (props) {
 				<Header title={'Алфавит'}/>
 
 				<div className={cls.description}>
-					<h4>О – Основная форма</h4>
+					<h4>О – Обособленная форма</h4>
 					<h4>Н – Начальная форма</h4>
 					<h4>С – Серединная форма</h4>
 					<h4>К – Конечная форма</h4>
