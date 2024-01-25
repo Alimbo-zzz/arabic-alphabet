@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import { v4 as setId } from 'uuid';
 import {Animate} from '@/contexts';
 import {Header} from '@/components';
 import cls from './style.module.scss';
@@ -6,30 +7,52 @@ import AlphabetData from '@data/alphabet.json';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import classNames from 'classnames';
 import {useNavigate} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+import {useActions} from '@hooks';
 
 import 'swiper/css';
 import './swiper.scss';
 
 
 function Testing (props) {
+	const persons = useSelector(state => state.persons);
+	const actions = useActions();
 	const navigate = useNavigate();
 	const [slides, setSlides] = useState([]);
 	const [swiper, setSwiper] = useState(null);
+	const [activeIndex, setActiveIndex] = useState(0);
 	const [testFinal, setTestFinal] = useState(false);
 	const [testResult, setTestResult] = useState([]);
 	const [isTestPage, setTestPage] = useState(false);
 	const [valid, setValid] = useState(false);
 	const [allLettersSelected, setAllLettersSelected] = useState(false);
 	const array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
-
+	const formRef = useRef();
+	const [personSelect, setPersonSelect] = useState('none');
 
 	const swiperOps = {
 		spaceBetween: 50,
 		allowTouchMove: false,
 		onSwiper: setSwiper,
-		// onSlideChange: (e) => console.log(e),
+		onSlideChange: (e) => setActiveIndex(e.activeIndex),
 	}
 
+	useEffect(()=>{
+		console.log(persons)
+	}, [persons])
+
+	const checkValid = () => {
+		const form = formRef.current;
+		const allCheckbox = form.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]');
+		const selectPerson = form.querySelector('[name="person"]');
+		// const selectLimit = form.querySelector('[name="limit"]');
+		let isValid = true;
+		let allCheckBoxEmpty = true;
+		allCheckbox.forEach(el => el.checked && (allCheckBoxEmpty = false));
+		if(selectPerson.value === 'none' || allCheckBoxEmpty) isValid = false;
+		
+		setValid(isValid);
+	}
 
 	useEffect(()=>{ if(slides.length && slides.length === testResult.length) setTestFinal(true) }, [testResult])
 
@@ -56,7 +79,7 @@ function Testing (props) {
 				if(i === 0) return;
 				if(letters.length && !letters.includes(key)) return;
 
-				array.push({sound: key,	simbol: el, text: AlphabetData[key][0]});
+				array.push({sound: key,	simbol: el, text: AlphabetData[key][0], id: setId()});
 			})
 		}
 
@@ -69,14 +92,13 @@ function Testing (props) {
 		allCheckBox.forEach(el => !el.checked && (allChecked = false))
 		if(allChecked){
 			setAllLettersSelected(false);
-			setValid(false);
 			allCheckBox.forEach(el => el.checked = false);
 		} 
 		else {
 			setAllLettersSelected(true);
-			setValid(true);
 			allCheckBox.forEach(el => el.checked = true);
 		}
+		checkValid();
 	}
 
 	const changeCheckbox = (e) => {
@@ -88,7 +110,7 @@ function Testing (props) {
 			el.checked && (isEmpty = false);
 		})
 		setAllLettersSelected(allChecked);
-		setValid(!isEmpty);
+		checkValid();
 	}
 
 	const renderCheckbox = (el, i) => (
@@ -124,9 +146,19 @@ function Testing (props) {
 		return `Результат: ${true_values} из ${testResult.length}`
 	}
 
+	const getPersonToId = (id) => persons.find(el => el.id === id);
+
 	const sendTestResult = (e) => {
 		e.preventDefault();
+		actions.addTestOnPerson({id: personSelect, data: testResult})
 		navigate('/')
+	}
+
+	const changeFinalCheckbox = (e) => {
+		let checked = e.target.checked;
+		let value = e.target.value;
+		const newArr = testResult.map(el => el.id === value ? ({...el, answer: checked}) : el) 
+		setTestResult(newArr);
 	}
 
 	const renderSlide = (el, i) => (
@@ -147,7 +179,12 @@ function Testing (props) {
 			!isTestPage && !testFinal && 
 			<div className={classNames([cls.wrap, 'container'])}>
 				<Header title={'Тестирование'} />
-				<form className={cls.letters} onSubmit={send}>
+				<form ref={formRef} className={cls.letters} onSubmit={send}>
+					<h3>Тест проходит</h3>
+					<select name="person" value={personSelect} onChange={e => {setPersonSelect(e.target.value); checkValid();}}>
+						<option defaultValue value="none">Выберите человека</option>
+						{persons.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}						
+					</select>
 					<h3>Выберите буквы для теста</h3>
 					<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
 					<div name="letters" className={cls.letters__grid}>
@@ -155,7 +192,7 @@ function Testing (props) {
 					</div>
 					<div className={cls.letters__length}>
 						<h4>Колличество вопросов</h4>
-						<select name="limit">
+						<select name="limit"  onChange={checkValid}>
 							<option defaultValue value="15">15</option>
 							<option value="30">30</option>
 							<option value="50">50</option>
@@ -171,6 +208,11 @@ function Testing (props) {
 		{
 			isTestPage && !testFinal && 
 			<div className={classNames([cls.slider, 'container'])}>
+				<div className={cls.slider__title}>
+					<h2>Тест проходит</h2>
+					<h2>{getPersonToId(personSelect)?.name}</h2>
+				</div>
+				<div className={cls.slider__index}>{activeIndex + 1} / {slides.length}</div>
 				<Swiper {...swiperOps}>
 					{slides?.map(renderSlide)}
 				</Swiper>
@@ -182,14 +224,17 @@ function Testing (props) {
 			<div className={classNames([cls.results, 'container'])}>
 				<Header title={'Результаты'} />
 				<form className={cls.results__form} onSubmit={sendTestResult}>
-					<ul className={cls.results__list}>
-						{testResult.map((el, i) => <label data className={cls.results__item} key={i}>
+					<ul name="results" className={cls.results__list}>
+						{testResult.map((el, i) => <label className={cls.results__item} key={el.id}>
 							<span>{i + 1}.</span>
 							<h4>{el.simbol}</h4>
-							<input name={el.sound} type="checkbox" defaultChecked={el.answer} />
+							<input value={el.id} onChange={changeFinalCheckbox} type="checkbox" defaultChecked={el.answer} />
 						</label>)}
 					</ul>
-					<h2>{getResultText()}</h2>
+					<div className={cls.results__info}> 
+						<h2>{getPersonToId(personSelect).name}</h2>
+						<h2>{getResultText()}</h2>
+					</div>
 					<button className={cls.letters__btn} type='submit'>Сохранить результат</button>
 				</form>
 			</div>

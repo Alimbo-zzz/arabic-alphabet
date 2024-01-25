@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import cls from './style.module.scss';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -30,7 +30,10 @@ function Main (props) {
 			icon: "test"
 		},
 	]
-	
+
+
+
+
 
 	const RenderTile = (el, i) => (
 	<Link key={i} to={el.route} className={cls.wrap__tile}>

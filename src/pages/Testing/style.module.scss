@@ -69,8 +69,20 @@
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	justify-content: center;
 	gap: 50px;
+	padding: 20% 0;
+
+
+
+	&__title{
+		text-align: center;
+	}
+
+
+	&__index{
+		text-align: center;
+		font-size: 30px;
+	}
 }
 
 
