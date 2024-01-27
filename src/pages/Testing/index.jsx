@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { v4 as setId } from 'uuid';
 import {Animate} from '@/contexts';
-import {Header} from '@/components';
+import {Header, Checkbox} from '@/components';
 import cls from './style.module.scss';
 import AlphabetData from '@data/alphabet.json';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -29,6 +29,13 @@ function Testing (props) {
 	const array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
 	const formRef = useRef();
 	const [personSelect, setPersonSelect] = useState('none');
+
+	const selectLimitOps = [
+		{value: '15', label: '15'},
+		{value: '30', label: '30'},
+		{value: '50', label: '50'},
+		{value: '200', label: 'МАХ'},
+	]
 
 	const swiperOps = {
 		spaceBetween: 50,
@@ -99,7 +106,7 @@ function Testing (props) {
 	}
 
 	const changeCheckbox = (e) => {
-		const allCheckBox = e.target.parentNode.parentNode.parentNode.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]')
+		const allCheckBox = e.target.parentNode.parentNode.parentNode.parentNode.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]')
 		let allChecked = true;
 		let isEmpty = true;
 		allCheckBox.forEach(el => {
@@ -113,7 +120,7 @@ function Testing (props) {
 	const renderCheckbox = (el, i) => (
 		<label key={el} className={cls.letter}>
 			<h4>{AlphabetData[el][1]}</h4>
-			<input type="checkbox" name={el} onChange={changeCheckbox} />
+			<Checkbox name={el} onChange={changeCheckbox} />
 		</label>
 	);
 
@@ -166,7 +173,6 @@ function Testing (props) {
 		player.onended = () => simbol.disabled = false;
 	}
 
-	console.log(slides)
 
 	const renderSlide = (el, i) => (
 		<SwiperSlide key={i}>
@@ -188,7 +194,6 @@ function Testing (props) {
 			<div className={classNames([cls.wrap, 'container'])}>
 				<Header title={'Тестирование'} />
 				<form ref={formRef} className={cls.letters} onSubmit={send}>
-					<h3>Тест проходит</h3>
 					<select name="person" value={personSelect} onChange={e => {setPersonSelect(e.target.value); checkValid();}}>
 						<option defaultValue value="none">Выберите человека</option>
 						{persons.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}						
