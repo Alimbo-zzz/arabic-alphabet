@@ -92,12 +92,22 @@
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+	user-select: none;
 
-	h1{
+	&__simbol{
 		font-size: 180px;
 		width: 100%;
 		text-align: center;
 		margin: 0;padding: 0;
+		transition: 0.3s;
+		background: none;
+		border: none;
+
+
+		&:disabled{
+			pointer-events: none;
+			transform: scale(0.8);
+		}
 	}
 
 	&__controls{

@@ -37,9 +37,6 @@ function Testing (props) {
 		onSlideChange: (e) => setActiveIndex(e.activeIndex),
 	}
 
-	useEffect(()=>{
-		console.log(persons)
-	}, [persons])
 
 	const checkValid = () => {
 		const form = formRef.current;
@@ -161,10 +158,21 @@ function Testing (props) {
 		setTestResult(newArr);
 	}
 
+	const playSound = (e) =>{
+		const simbol = e.target;
+		const player = simbol.parentNode.querySelector('audio');
+		simbol.disabled = true;
+		player.play();
+		player.onended = () => simbol.disabled = false;
+	}
+
+	console.log(slides)
+
 	const renderSlide = (el, i) => (
 		<SwiperSlide key={i}>
 			<div className={cls.slide}>
-				<h1>{el.simbol}</h1>
+				<audio src={'sounds/' + el.sound + '.mp3'}></audio>
+				<button className={cls.slide__simbol} onClick={playSound}>{el.simbol}</button>
 				<div className={cls.slide__controls}>
 					<button data-btn={false} onClick={(e) => goSlide(false, el, i, e.target)}>Неверно</button>
 					<button data-btn={true} onClick={(e) => goSlide(true, el, i, e.target)}>Верно</button>

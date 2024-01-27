@@ -8,7 +8,7 @@ function Header ({title}) {
 	
 	return (<>
 		<header className={classNames([cls.header])} >
-			<Link to={'/'}> <Icon name='arrow-bold'/> </Link>
+			<Link to={'/'}> <Icon name='arrow-long'/> </Link>
 			<h1 className='title'>{title}</h1>
 		</header>
 	</>);

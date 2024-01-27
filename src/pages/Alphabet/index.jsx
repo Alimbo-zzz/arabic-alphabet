@@ -42,7 +42,6 @@ function Alphabet (props) {
 		<Animate>
 			<div className={classNames([cls.wrap, 'container'])}>	
 				<Header title={'Алфавит'}/>
-				<h1>s</h1>
 
 				<div className={cls.description}>
 					<h4>О – Обособленная форма</h4>

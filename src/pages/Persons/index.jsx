@@ -16,7 +16,6 @@ function Persons (props) {
 
 
 	useEffect(()=>{
-		console.log(personData)
 		if(personData !== null) setModalIsOpen(true); 
 	}, [personData])
 	
@@ -68,16 +67,16 @@ function Persons (props) {
 			<div data-open={modalIsOpen} className={classNames([cls.modal])}>
 				<div className={classNames([cls.modal__cont, 'container'])}>
 					<div className={cls.modal__head}>
-						<button className={cls.modal__close} onClick={closeModal}>Х</button>
-					</div>
-					<h2>{personData?.name}</h2>
-					<button className={cls.modal__delete} onClick={deletePerson}>Удалить персону</button>
-					<h3>История тестирования</h3>
-					<ul>
+						<h2>{personData?.name}</h2>
+						<button className={cls.modal__close} onClick={closeModal}><Icon name="cross"/></button>
+					</div>					
+					<ul className={cls.modal__list}>
+						<h3>История тестирования</h3>
 						{personData?.data?.map((el, i) => <li key={i}>
 							<h4>Тест №{i+1}: {getStateToTest(i)}</h4>
 						</li>)}
-					</ul>			
+					</ul>
+					<button className={cls.modal__delete} onClick={deletePerson}>Удалить персону</button>
 				</div>
 			</div>
 		</Animate>
