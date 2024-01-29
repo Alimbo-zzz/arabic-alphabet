@@ -12,8 +12,8 @@ function Checkbox ({className='', ...props}) {
 			<div className={cls.checkbox__style} >
 				<svg className={cls.checkbox__tick}>
 					<use 
-						xlinkHref={`${sprite}#${'tick'}`} 
-						href={`${sprite}#${'tick'}`} 
+						xlinkHref={`${sprite}#${'tick-bold'}`} 
+						href={`${sprite}#${'tick-bold'}`} 
 					/>
 				</svg>
 			</div>
