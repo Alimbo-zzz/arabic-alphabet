@@ -12,3 +12,12 @@
 	min-height: $size;
 	max-height: $size;
 }
+
+
+@mixin active-anim(){
+	transition: 0.15s;
+
+	&:active{
+		transform: scale(0.9);
+	}
+}

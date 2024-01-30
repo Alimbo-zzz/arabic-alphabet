@@ -2,6 +2,7 @@ import Navigation from "./Navigation";
 import Icon from './Icon';
 import Header from './Header';
 import Checkbox from "./Checkbox";
+import Select from "./Select";
 
 
 export {
@@ -9,4 +10,5 @@ export {
 	Icon,
 	Header,
 	Checkbox,
+	Select,
 }

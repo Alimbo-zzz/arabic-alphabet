@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { v4 as setId } from 'uuid';
 import {Animate} from '@/contexts';
-import {Header, Checkbox} from '@/components';
+import {Header, Checkbox, Select} from '@/components';
 import cls from './style.module.scss';
 import AlphabetData from '@data/alphabet.json';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,8 +28,10 @@ function Testing (props) {
 	const [allLettersSelected, setAllLettersSelected] = useState(false);
 	const array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
 	const formRef = useRef();
-	const [personSelect, setPersonSelect] = useState('none');
+	const [selectLimit, setSelectLimit] = useState('');
+	const [selectPerson, setSelectPerson] = useState('');
 
+	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name}))
 	const selectLimitOps = [
 		{value: '15', label: '15'},
 		{value: '30', label: '30'},
@@ -46,18 +48,18 @@ function Testing (props) {
 
 
 	const checkValid = () => {
-		const form = formRef.current;
+		const form = formRef?.current;
+		if(!form) return;
 		const allCheckbox = form.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]');
-		const selectPerson = form.querySelector('[name="person"]');
-		// const selectLimit = form.querySelector('[name="limit"]');
 		let isValid = true;
 		let allCheckBoxEmpty = true;
 		allCheckbox.forEach(el => el.checked && (allCheckBoxEmpty = false));
-		if(selectPerson.value === 'none' || allCheckBoxEmpty) isValid = false;
-		
+		if(!selectPerson || allCheckBoxEmpty) isValid = false;
+		console.log('test')
 		setValid(isValid);
 	}
 
+	useEffect(()=>{checkValid()}, [selectPerson])
 	useEffect(()=>{ if(slides.length && slides.length === testResult.length) setTestFinal(true) }, [testResult])
 
 	const shuffle = (array) => {
@@ -127,11 +129,10 @@ function Testing (props) {
 	const send = (e) => {
 		e.preventDefault();
 		let lettersArray = [];
-		const limit = Number(e.target.querySelector('[name="limit"]').value);
 		const allCheckBox = e.target.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]');
 		allCheckBox.forEach(el => el.checked && (lettersArray.push(el.name)));
 
-		const data = getRandomData(limit, lettersArray);
+		const data = getRandomData(selectLimit, lettersArray);
 		setSlides(data);
 		setTestPage(true);
 	}
@@ -154,7 +155,7 @@ function Testing (props) {
 
 	const sendTestResult = (e) => {
 		e.preventDefault();
-		actions.addTestOnPerson({id: personSelect, data: testResult})
+		actions.addTestOnPerson({id: selectPerson, data: testResult})
 		navigate('/')
 	}
 
@@ -194,10 +195,7 @@ function Testing (props) {
 			<div className={classNames([cls.wrap, 'container'])}>
 				<Header title={'Тестирование'} />
 				<form ref={formRef} className={cls.letters} onSubmit={send}>
-					<select name="person" value={personSelect} onChange={e => {setPersonSelect(e.target.value); checkValid();}}>
-						<option defaultValue value="none">Выберите человека</option>
-						{persons.map(el => <option key={el.id} value={el.id}>{el.name}</option>)}						
-					</select>
+					<Select onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
 					<h3>Выберите буквы для теста</h3>
 					<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
 					<div name="letters" className={cls.letters__grid}>
@@ -205,13 +203,7 @@ function Testing (props) {
 					</div>
 					<div className={cls.letters__length}>
 						<h4>Колличество вопросов</h4>
-						<select name="limit"  onChange={checkValid}>
-							<option defaultValue value="15">15</option>
-							<option value="30">30</option>
-							<option value="50">50</option>
-							<option value="100">80</option>
-							<option value="200">МАХ</option>
-						</select>
+						<Select options={selectLimitOps} defaultValue={'15'} width={'100px'} setter={setSelectLimit} />
 					</div>
 					<button disabled={!valid} type="submit" className={cls.letters__btn}>Начать</button>
 				</form>
@@ -223,7 +215,7 @@ function Testing (props) {
 			<div className={classNames([cls.slider, 'container'])}>
 				<div className={cls.slider__title}>
 					<h2>Тест проходит</h2>
-					<h2>{getPersonToId(personSelect)?.name}</h2>
+					<h2>{getPersonToId(selectPerson)?.name}</h2>
 				</div>
 				<div className={cls.slider__index}>{activeIndex + 1} / {slides.length}</div>
 				<Swiper {...swiperOps}>
@@ -245,7 +237,7 @@ function Testing (props) {
 						</label>)}
 					</ul>
 					<div className={cls.results__info}> 
-						<h2>{getPersonToId(personSelect).name}</h2>
+						<h2>{getPersonToId(selectPerson).name}</h2>
 						<h2>{getResultText()}</h2>
 					</div>
 					<button className={cls.letters__btn} type='submit'>Сохранить результат</button>
