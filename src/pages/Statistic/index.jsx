@@ -77,7 +77,7 @@ function Statistic (props) {
 
 					<ul className={cls.chart__list}>
 						{data.map(el => <li key={el.id} className={cls.chart__item}>
-							<div data-name="color" style={{color: el.color}} />
+							<div data-name="color" style={{background: el.color}}>{el.id}</div>
 							<div data-name="text">{el.text}</div>
 							<div data-name="value">{el.value}</div>
 						</li>)}

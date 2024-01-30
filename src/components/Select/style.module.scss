@@ -32,6 +32,38 @@
 		@include active-anim();
 	}
 
+
+	&__search{
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		padding: 5px;
+		border-bottom: 1px solid #333;
+
+		input{
+			border: none;
+			display: block;
+			width: 100%;
+		}
+
+		button{
+			border: none;
+			width: 30px;
+			aspect-ratio: 1/1;
+			transition: 0.3s;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: none;
+			font-size: 20px;
+			background: #333;
+			color: #fff;
+			border-radius: 50%;
+
+			&:disabled{	opacity: 0; }
+		}
+	}
+
 	&__modal{
 		position: fixed;
 		left: 0;top: 0;

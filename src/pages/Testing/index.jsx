@@ -50,12 +50,11 @@ function Testing (props) {
 	const checkValid = () => {
 		const form = formRef?.current;
 		if(!form) return;
-		const allCheckbox = form.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]');
+		const allCheckbox = form.querySelectorAll('[name="letters"] input[type="checkbox"]');
 		let isValid = true;
 		let allCheckBoxEmpty = true;
 		allCheckbox.forEach(el => el.checked && (allCheckBoxEmpty = false));
 		if(!selectPerson || allCheckBoxEmpty) isValid = false;
-		console.log('test')
 		setValid(isValid);
 	}
 
@@ -93,7 +92,7 @@ function Testing (props) {
 	}
 
 	const pickAll = (e) => {
-		const allCheckBox = e.target.parentNode.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]')
+		const allCheckBox = e.target.parentNode.querySelectorAll('[name="letters"] input[type="checkbox"]')
 		let allChecked = true;
 		allCheckBox.forEach(el => !el.checked && (allChecked = false))
 		if(allChecked){
@@ -108,7 +107,7 @@ function Testing (props) {
 	}
 
 	const changeCheckbox = (e) => {
-		const allCheckBox = e.target.parentNode.parentNode.parentNode.parentNode.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]')
+		const allCheckBox = e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll('[name="letters"] input[type="checkbox"]')
 		let allChecked = true;
 		let isEmpty = true;
 		allCheckBox.forEach(el => {
@@ -129,7 +128,7 @@ function Testing (props) {
 	const send = (e) => {
 		e.preventDefault();
 		let lettersArray = [];
-		const allCheckBox = e.target.querySelector('[name="letters"]').querySelectorAll('input[type="checkbox"]');
+		const allCheckBox = e.target.querySelectorAll('[name="letters"] input[type="checkbox"]');
 		allCheckBox.forEach(el => el.checked && (lettersArray.push(el.name)));
 
 		const data = getRandomData(selectLimit, lettersArray);
@@ -195,7 +194,7 @@ function Testing (props) {
 			<div className={classNames([cls.wrap, 'container'])}>
 				<Header title={'Тестирование'} />
 				<form ref={formRef} className={cls.letters} onSubmit={send}>
-					<Select onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
+					<Select search={true} onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
 					<h3>Выберите буквы для теста</h3>
 					<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
 					<div name="letters" className={cls.letters__grid}>
