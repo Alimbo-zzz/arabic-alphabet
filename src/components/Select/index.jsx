@@ -47,9 +47,10 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 		onClick: clickInput,
 	}
 	
-	const openModal = () => setIsOpen(true);
-	const closeModal = () => setIsOpen(false);
 	const resetSearch = () => setSearchValue('');
+	const openModal = () => setIsOpen(true);
+	const closeModal = () => {setIsOpen(false); setSearchValue('');}
+	const dataLength = () => filteredData.find(el => el.visible === true);
 
 	function setDefaultValue(){ 
 		let findItem = options.find(el => el.value == defaultValue);
@@ -72,7 +73,6 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 		if(onChange) onChange(e);
 	}
 
-	const dataLength = () => filteredData.find(el => el.visible === true);
 
 
 	const SelectItemRender = (el, i) => (
