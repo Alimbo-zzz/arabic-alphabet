@@ -182,6 +182,8 @@ function Testing (props) {
 		simbol.disabled = true;
 		player.play();
 		player.onended = () => simbol.disabled = false;
+		setTimeout(() => (simbol.disabled === true) && (simbol.disabled = false) ,2000)
+
 	}
 
 

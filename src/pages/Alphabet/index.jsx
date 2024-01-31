@@ -14,12 +14,12 @@ function Alphabet (props) {
 		// var player = new Audio(url);
 		// player.src = url;
 		var player = btn.parentNode.querySelector('audio');
-		// console.log(player)
 
 		player.play();
 		btn.disabled = true;
 		btn.dataset.active = 'true';
 
+		setTimeout(() => (btn.disabled === true) && (btn.disabled = false) ,2000)
 
 		player.onended = () => {			
 			btn.disabled = false;
