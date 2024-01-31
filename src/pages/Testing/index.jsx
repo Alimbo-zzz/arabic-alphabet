@@ -181,8 +181,12 @@ function Testing (props) {
 		const player = simbol.parentNode.querySelector('audio');
 		simbol.disabled = true;
 		player.play();
-		player.onended = () => simbol.disabled = false;
-		setTimeout(() => (simbol.disabled === true) && (simbol.disabled = false) ,2000)
+		const close = setTimeout(() => (simbol.disabled === true) ? (simbol.disabled = false) : null ,2000)
+
+		player.onended = () => {
+			simbol.disabled = false;
+			clearTimeout(close);
+		};
 
 	}
 

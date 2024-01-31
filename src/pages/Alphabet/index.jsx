@@ -19,11 +19,17 @@ function Alphabet (props) {
 		btn.disabled = true;
 		btn.dataset.active = 'true';
 
-		setTimeout(() => (btn.disabled === true) && (btn.disabled = false) ,2000)
+		const close = setTimeout(() => {
+			if(btn.disabled === true) {
+				btn.disabled = false;
+				btn.dataset.active = 'false';
+			} 
+		},2000)
 
 		player.onended = () => {			
 			btn.disabled = false;
 			btn.dataset.active = 'false';
+			clearTimeout(close);
 		}
 	}  
 
