@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import { v4 as setId } from 'uuid';
 import {Animate} from '@/contexts';
 import {Header, Checkbox, Select} from '@/components';
@@ -26,10 +26,10 @@ function Testing (props) {
 	const [isTestPage, setTestPage] = useState(false);
 	const [valid, setValid] = useState(false);
 	const [allLettersSelected, setAllLettersSelected] = useState(false);
-	const array = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]
-	const formRef = useRef();
 	const [selectLimit, setSelectLimit] = useState('');
 	const [selectPerson, setSelectPerson] = useState('');
+	const [defaultPerson, setDefaultPerson] = useState('');
+	const [letters, setLetters] = useState([])
 
 	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name}))
 	const selectLimitOps = [
@@ -48,18 +48,34 @@ function Testing (props) {
 
 
 	const checkValid = () => {
-		const form = formRef?.current;
-		if(!form) return;
-		const allCheckbox = form.querySelectorAll('[name="letters"] input[type="checkbox"]');
 		let isValid = true;
 		let allCheckBoxEmpty = true;
-		allCheckbox.forEach(el => el.checked && (allCheckBoxEmpty = false));
+		let allChecked = true;
+		letters.forEach(el => el.checked && (allCheckBoxEmpty = false));
+		letters.forEach(el => !el.checked && (allChecked = false));
 		if(!selectPerson || allCheckBoxEmpty) isValid = false;
+		setAllLettersSelected(allChecked);
 		setValid(isValid);
 	}
 
-	useEffect(()=>{checkValid()}, [selectPerson])
+	const getLettersArray = () => {
+		let array = [];
+		for (const key in AlphabetData) {
+			let obj = {id: key, data: AlphabetData[key], checked: false};
+			array.push(obj);
+		}
+		return array;
+	}
+
+	useEffect(()=>{
+		setLetters(getLettersArray());
+		let savePerson = window.localStorage.getItem('arabic-alphabet-person');
+		let saveLetters = window.localStorage.getItem('arabic-alphabet-letters');
+		if(savePerson) setDefaultPerson(savePerson);
+		if(saveLetters) setLetters(JSON.parse(saveLetters));
+	}, [])
 	useEffect(()=>{ if(slides.length && slides.length === testResult.length) setTestFinal(true) }, [testResult])
+	useEffect(checkValid, [letters, selectPerson, allLettersSelected])
 
 	const shuffle = (array) => {
 		let m = array.length, t, i;
@@ -91,39 +107,25 @@ function Testing (props) {
 		return shuffle(array).slice(0, num)
 	}
 
-	const pickAll = (e) => {
-		const allCheckBox = e.target.parentNode.querySelectorAll('[name="letters"] input[type="checkbox"]')
+	const pickAll = () => {
+		let AllPick = [...letters].map(el => ({...el, checked: true}))
+		let AllDisable = [...letters].map(el => ({...el, checked: false}))
 		let allChecked = true;
-		allCheckBox.forEach(el => !el.checked && (allChecked = false))
-		if(allChecked){
-			setAllLettersSelected(false);
-			allCheckBox.forEach(el => el.checked = false);
-		} 
-		else {
-			setAllLettersSelected(true);
-			allCheckBox.forEach(el => el.checked = true);
-		}
-		checkValid();
+		letters.forEach(el => !el.checked && (allChecked = false))
+		let result = allChecked ? AllDisable : AllPick;
+		setLetters(result)
 	}
 
-	const changeCheckbox = (e) => {
-		const allCheckBox = e.target.parentNode.parentNode.parentNode.parentNode.querySelectorAll('[name="letters"] input[type="checkbox"]')
+	const changeCheckbox = (data) => {
 		let allChecked = true;
-		let isEmpty = true;
-		allCheckBox.forEach(el => {
+		let newLetters = [...letters].map(el => (el.id === data.id) ? {...el, checked: !el.checked} : el);
+		newLetters.forEach(el => {
 			!el.checked && (allChecked = false);
-			el.checked && (isEmpty = false);
 		})
 		setAllLettersSelected(allChecked);
-		checkValid();
+		setLetters(newLetters)
 	}
 
-	const renderCheckbox = (el, i) => (
-		<label key={el} className={cls.letter}>
-			<h4>{AlphabetData[el][1]}</h4>
-			<Checkbox name={el} onChange={changeCheckbox} />
-		</label>
-	);
 
 	const send = (e) => {
 		e.preventDefault();
@@ -132,6 +134,8 @@ function Testing (props) {
 		allCheckBox.forEach(el => el.checked && (lettersArray.push(el.name)));
 
 		const data = getRandomData(selectLimit, lettersArray);
+		window.localStorage.setItem('arabic-alphabet-person', selectPerson)
+		window.localStorage.setItem('arabic-alphabet-letters', JSON.stringify(letters))
 		setSlides(data);
 		setTestPage(true);
 	}
@@ -142,6 +146,13 @@ function Testing (props) {
 		btn.parentNode.querySelectorAll('button').forEach(el => el.disabled = true);
 		swiper?.slideNext();
 	}
+
+	const renderCheckbox = (el, i) => (
+		<label key={el.id} className={cls.letter}>
+			<h4>{el.data[1]}</h4>
+			<Checkbox name={el.id} checked={el.checked} onChange={(e) => changeCheckbox(el)} />
+		</label>
+	);
 
 
 	const getResultText = () => {
@@ -193,12 +204,12 @@ function Testing (props) {
 			!isTestPage && !testFinal && 
 			<div className={classNames([cls.wrap, 'container'])}>
 				<Header title={'Тестирование'} />
-				<form ref={formRef} className={cls.letters} onSubmit={send}>
-					<Select search={true} onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
+				<form className={cls.letters} onSubmit={send}>
+					<Select defaultValue={defaultPerson} search={true} onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
 					<h3>Выберите буквы для теста</h3>
 					<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
 					<div name="letters" className={cls.letters__grid}>
-						{array.map(renderCheckbox)}
+						{letters.map(renderCheckbox)}
 					</div>
 					<div className={cls.letters__length}>
 						<h4>Колличество вопросов</h4>
