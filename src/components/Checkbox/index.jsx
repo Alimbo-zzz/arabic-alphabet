@@ -5,10 +5,10 @@ import classNames from 'classnames';
 import tick from './tick-bold.svg';
 
 
-function Checkbox ({className='', ...props}) {
+function Checkbox ({className='', type='circle', ...props}) {
 	
 	return (<>
-		<label className={classNames([cls.checkbox, className])}>
+		<label data-type={type} className={classNames([cls.checkbox, className])}>
 			<input className={cls.checkbox__inp} type="checkbox" {...props}/>
 			<div className={cls.checkbox__style} >
 				<img src={tick} className={cls.checkbox__tick}/>

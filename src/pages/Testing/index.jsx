@@ -30,6 +30,7 @@ function Testing (props) {
 	const [selectPerson, setSelectPerson] = useState('');
 	const [defaultPerson, setDefaultPerson] = useState('');
 	const [letters, setLetters] = useState([])
+	const [vocalization, setVocalization] = useState(false);
 
 	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name}))
 	const selectLimitOps = [
@@ -94,13 +95,13 @@ function Testing (props) {
 
 	const getRandomData = (num=10, letters=[]) => {
 		let array = [];
-
+		let voices = [' َ', ' ِ', ' ُ'];
 		for (const key in AlphabetData) {	
 			AlphabetData[key].forEach((el, i) => {
 				if(i === 0) return;
 				if(letters.length && !letters.includes(key)) return;
-
-				array.push({sound: key,	simbol: el, text: AlphabetData[key][0], id: setId()});
+				let voice = vocalization ? shuffle(voices)[0] : '';
+				array.push({sound: key,	simbol: el, text: AlphabetData[key][0], voice, id: setId(), });
 			})
 		}
 
@@ -195,7 +196,7 @@ function Testing (props) {
 		<SwiperSlide key={i}>
 			<div className={cls.slide}>
 				<audio src={'sounds/' + el.sound + '.mp3'}></audio>
-				<button className={cls.slide__simbol} onClick={playSound}>{el.simbol}</button>
+				<button className={cls.slide__simbol} style={{pointerEvents: vocalization ? 'none' : 'auto'}} onClick={playSound}>{el.voice + el.simbol}</button>
 				<div className={cls.slide__controls}>
 					<button data-btn={false} onClick={(e) => goSlide(false, el, i, e.target)}>Неверно</button>
 					<button data-btn={true} onClick={(e) => goSlide(true, el, i, e.target)}>Верно</button>
@@ -213,14 +214,20 @@ function Testing (props) {
 				<form className={cls.letters} onSubmit={send}>
 					<Select defaultValue={defaultPerson} search={true} onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
 					<h3>Выберите буквы для теста</h3>
-					<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
+					<div className={cls.letters__head}>
+						<label className={cls.letters__vocalization}>
+							<h4>Огласовки</h4>
+							<Checkbox onChange={setVocalization} type="square"/>
+						</label>
+						<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
+					</div>
 					<div name="letters" className={cls.letters__grid}>
 						{letters.map(renderCheckbox)}
 					</div>
 					<div className={cls.letters__length}>
 						<h4>Колличество вопросов</h4>
 						<Select options={selectLimitOps} defaultValue={'15'} width={'100px'} setter={setSelectLimit} />
-					</div>
+					</div>					
 					<button disabled={!valid} type="submit" className={cls.letters__btn}>Начать</button>
 				</form>
 			</div>
@@ -248,7 +255,7 @@ function Testing (props) {
 					<ul name="results" className={cls.results__list}>
 						{testResult.map((el, i) => <label className={cls.results__item} key={el.id}>
 							<span>{i + 1}.</span>
-							<h4>{el.simbol}</h4>
+							<h4>{el.voice + el.simbol}</h4>
 							<input value={el.id} onChange={changeFinalCheckbox} type="checkbox" defaultChecked={el.answer} />
 						</label>)}
 					</ul>
