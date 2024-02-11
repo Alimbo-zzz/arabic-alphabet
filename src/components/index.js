@@ -3,6 +3,8 @@ import Icon from './Icon';
 import Header from './Header';
 import Checkbox from "./Checkbox";
 import Select from "./Select";
+import Search from "./Search";
+import Radio from "./Radio";
 
 
 export {
@@ -11,4 +13,6 @@ export {
 	Header,
 	Checkbox,
 	Select,
+	Search,
+	Radio,
 }

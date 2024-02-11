@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 
 function Statistic (props) {
-	const personsData = useSelector(state => state.persons);
+	const personsData = useSelector(state => state.persons.list);
 	const [rating, setRating] = useState({"1":[],"2":[],"3":[],"4":[],"5":[]});
 	const [data, setData] = useState([
 		{ id: '1', value: 0, color: '#D33934', text: 'Очень плохо' },
@@ -33,20 +33,21 @@ function Statistic (props) {
 
 
 	useEffect(()=>{
-		let result = {"1":[],"2":[],"3":[],"4":[],"5":[]};
-		personsData.forEach(person => {
-			person.data.forEach((test, i) => {
-				let true_answer = Math.round((100 * test.filter(el => el.answer).length) / test.length);
-				let false_answer = Math.round((100 * test.filter(el => !el.answer).length) / test.length);
-				let obj = {personId: person.id, testIndex: i }
-				if(true_answer >= 90) return result["5"].push(obj);
-				else if(true_answer >= 70) return result["4"].push(obj);
-				else if(true_answer >= 50) return result["3"].push(obj);
-				else if(true_answer >= 30) return result["2"].push(obj);
-				else return result["1"].push(obj);
-			})
-		})
-		setRating(result);
+		// let result = {"1":[],"2":[],"3":[],"4":[],"5":[]};
+		// personsData.forEach(person => {
+		// 	person.exam.forEach((test, i) => {
+		// 		console.log(test)
+		// 		let true_answer = Math.round((100 * test.filter(el => el.answer).length) / test.length);
+		// 		let false_answer = Math.round((100 * test.filter(el => !el.answer).length) / test.length);
+		// 		let obj = {personId: person.id, testIndex: i }
+		// 		if(true_answer >= 90) return result["5"].push(obj);
+		// 		else if(true_answer >= 70) return result["4"].push(obj);
+		// 		else if(true_answer >= 50) return result["3"].push(obj);
+		// 		else if(true_answer >= 30) return result["2"].push(obj);
+		// 		else return result["1"].push(obj);
+		// 	})
+		// })
+		// setRating(result);
 	}, [personsData])
 
 	useEffect(()=>{
@@ -72,7 +73,7 @@ function Statistic (props) {
 		<Animate>
 			<div>
 				<Header title="Статистика"/>
-				<div className={cls.chart}>
+				{/* <div className={cls.chart}>
 					<PieChart series={[chartOps]} width={360} height={360} />
 
 					<ul className={cls.chart__list}>
@@ -82,7 +83,7 @@ function Statistic (props) {
 							<div data-name="value">{el.value}</div>
 						</li>)}
 					</ul>
-				</div>
+				</div> */}
 			</div>
 		</Animate>
 	</>);

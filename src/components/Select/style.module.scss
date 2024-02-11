@@ -105,6 +105,12 @@
 		font-size: 18px;
 		border-radius: 10px;
 		@include active-anim();
+
+		&[data-selected='true']{
+			pointer-events: none;
+			background: #333;
+			color: #fff;
+		}
 	}
 
 }

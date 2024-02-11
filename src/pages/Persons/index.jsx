@@ -1,82 +1,63 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {Animate} from '@/contexts';
 import {Header, Icon } from "@/components";
 import classNames from 'classnames';
-import {useSelector} from 'react-redux';
-import {useActions} from '@hooks';
+import {Link} from 'react-router-dom';
 
 import cls from './style.module.scss'
 
 
 function Persons (props) {
-	const persons = useSelector(state => state.persons);
-	const actions = useActions();
-	const [personData, setPersonData] = useState(null);
-	const [modalIsOpen, setModalIsOpen] = useState(false);
+
+	const routes = [
+		{
+			styles: {background: "linear-gradient(to bottom, #FFD600, #BF7910)"},
+			icon: 'attendance', 
+			path: 'attendance', 
+			text: 'Посещаемость'
+		},
+		{
+			styles: {background: "linear-gradient(to bottom, #00E0FF, #1080BF)"},
+			icon: 'person-list', 
+			path: 'list', 
+			text: 'Список людей'
+		},
+		{
+			styles: {background: "linear-gradient(to bottom, #CC00FF, #7210BF)"},
+			icon: 'person-group', 
+			path: 'group', 
+			text: 'Группы'
+		},
+		{
+			styles: {background: "linear-gradient(to bottom, #00ED5F, #00A410)"},
+			icon: 'person-add', 
+			path: 'add-person', 
+			text: 'Добавить человека'
+		},
+	]
 
 
-	useEffect(()=>{
-		if(personData !== null) setModalIsOpen(true); 
-	}, [personData])
+	const renderLink = (el, i) => (
+		<Link 
+			to={el.path} 
+			key={i} 
+			className={cls.item}
+			style={el.styles}
+		>
+			<h2>{el.text}</h2>
+			<Icon name={el.icon}/>
+		</Link>
+	);
 	
-	const addPerson = (e) => {
-		e.preventDefault();
-		let name = e.target.querySelector('input[name="person"]').value;
-		actions.addPerson(name);
-		e.target.reset();
-	}
-
-
-	const closeModal = () => {setModalIsOpen(false); setPersonData(null);}
-
-	const deletePerson = () => {
-		const aa = confirm('Вы точно хотите удалить?');
-		if(!aa) return;
-		actions.deletePerson(personData.id);
-		closeModal();
-	};
-	const renderItem = el => (<li key={el.id} className={cls.item}>
-		<h4>{el.name}</h4>
-		<button onClick={() => setPersonData(el)}><Icon name='books'/></button>
-	</li>);
-
-	const getStateToTest = (i) => {
-		if(!personData) return '';
-		let trueAnwers = 0;
-		personData.data[i]?.forEach((el, i) => el.answer && (trueAnwers += 1));
-		return `${trueAnwers}/${personData.data[i]?.length}`;
-	}
 
 	return (<>
 		<Animate>
 			<div className={classNames([cls.wrap])}>
 				<div className='container'>
 					<Header title="Люди"/>
-						
-					<form autoComplete="off" onSubmit={addPerson} className={cls.form}>
-						<input autoComplete='off' placeholder='Введите имя, фамилию' type="text" name="person" required />
-						<button type='submit' >Добавить персону</button>
-					</form>
-				</div>
-
-				<ul className={cls.list}>
-					{persons.map(renderItem)}
-				</ul>
-			</div>
-
-			<div data-open={modalIsOpen} className={classNames([cls.modal])}>
-				<div className={classNames([cls.modal__cont, 'container'])}>
-					<div className={cls.modal__head}>
-						<h2>{personData?.name}</h2>
-						<button className={cls.modal__close} onClick={closeModal}><Icon name="cross"/></button>
-					</div>					
-					<ul className={cls.modal__list}>
-						<h3>История тестирования</h3>
-						{personData?.data?.map((el, i) => <li key={i}>
-							<h4>Тест №{i+1}: {getStateToTest(i)}</h4>
-						</li>)}
-					</ul>
-					<button className={cls.modal__delete} onClick={deletePerson}>Удалить персону</button>
+					<nav className={cls.nav}>
+						{routes.map(renderLink)}
+					</nav>
 				</div>
 			</div>
 		</Animate>

@@ -1,0 +1,45 @@
+.radio{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	*{transition: 0.18s;}
+
+
+	&__inp{
+		display: none;
+	}
+
+	&__style{
+		border: 1.5px solid;
+		width: 100%;
+		aspect-ratio: 1/1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		overflow: hidden;
+		position: relative;
+	}
+
+
+	svg{
+		z-index: 10;
+	}
+
+	[data-name='bg']{
+		position: absolute;
+		left: 0;top: 0;
+		background: #222;
+		width: 100%; height: 100%;
+		transition: 0.3s;
+		opacity: 0;
+	}
+
+
+	&__inp:checked + .radio__style [data-name='bg']{
+		opacity: 1;
+	}
+	
+
+}

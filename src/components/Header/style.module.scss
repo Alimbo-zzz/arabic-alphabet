@@ -3,14 +3,22 @@
 	align-items: center;
 	grid-template-columns: 50px 1fr 50px;
 	gap: 10px;
+	width: 100%;
 
 	a{
 		color: #222;
 		display: block;
 	}
 
+	button{
+		height: 55px;
+		border: none;
+		background: none;
+	}
+
 	svg{
 		font-size: 50px;
+		color: #222;
 	}
 
 

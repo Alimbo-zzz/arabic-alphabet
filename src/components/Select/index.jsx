@@ -14,6 +14,7 @@ Select.propTypes = {
 	"defaultValue": PropTypes.string,
 	"search": PropTypes.bool,
 	"width": PropTypes.string,
+	"placeholder": PropTypes.string,
 	"options": PropTypes.arrayOf(
 		PropTypes.shape({
 			value: PropTypes.string,
@@ -22,7 +23,7 @@ Select.propTypes = {
 	),
 }
 
-function Select ({width="200px", onChange=null, search=false, setter=null, onClick=null, defaultValue='', className='', options=[], ...props}) {
+function Select ({width="200px", onChange=null, search=false, setter=null, onClick=null, defaultValue='', className='', options=[], placeholder='',  ...props}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeValue, setActiveValue] = useState({value: '', label: ''});
 	const [searchValue, setSearchValue] = useState('');
@@ -55,7 +56,7 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 	function setDefaultValue(){ 
 		let findItem = options.find(el => el.value == defaultValue);
 		let base = {value: '', label: ''};
-		let result = findItem || base;
+		let result = findItem || (placeholder && base) || options[0] || base;
 		setActiveValue(result);		
 	}
 
@@ -80,14 +81,12 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 			{
 				el.visible &&
 				<motion.li 
-					onClick={() => clickItem(el, i)} 
-					style={{visibility: el.visible}}
+					onClick={() => clickItem(el, i)}
 					className={cls.select__item} 
-					data-value={el.value}
-					data-visible={el.visible}
 					initial={{ opacity: 0, x: -100 }}
 					animate={{ opacity: 1, x: 0 }}
 					exit={{ opacity: 0, x: -100 }}
+					data-selected={el.value === activeValue.value}
 				>
 					{el.label}
 				</motion.li>
@@ -98,7 +97,7 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 	
 	return (<>
 		<div style={{width}} className={classNames([cls.select, className])}>
-			<input {...props} value={activeValue?.label} className={cls.select__preview} type="text" {...inpOps}  />
+			<input {...props} placeholder={placeholder} value={activeValue?.label} className={cls.select__preview} type="text" {...inpOps}  />
 			<div data-open={isOpen} className={cls.select__modal}>
 				<div data-modal="head" className='container'>
 					<button type='button' onClick={closeModal} data-modal="close"><Icon name="cross"/></button>
