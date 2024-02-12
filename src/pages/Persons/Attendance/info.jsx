@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import cls from './style.module.scss';
+import cls from './info.module.scss';
 import {Header, Select, Radio} from '@/components';
 import {useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux';

@@ -5,28 +5,40 @@ import {AnimatePresence} from 'framer-motion';
 import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
 import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoGroup, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
-
+import {AlphabetTest, AddTest} from '@/pages/Testing/components';
 
 function App(props) {
 	const location = useLocation();
-	// const persons = useSelector(state => state.persons.list);
-	const persons = [];
+	const personList = useSelector(state => state.persons.list);
+	const personExam = useSelector(state => state.persons.exam);
+	const personGroup = useSelector(state => state.persons.group);
+	const personAttendance = useSelector(state => state.persons.attendance);
 	const actions = useActions();
 
 
 	
-	// useEffect(()=>{
-	// 	const data = window.localStorage.getItem('arabic-alphabet-persons');
-	// 	if(!data || typeof JSON.parse(data) === 'string') return;
-	// 	actions.setData(JSON.parse(data));
-	// },[])
+	useEffect(()=>{
+		let arr = ['list', 'exam', 'group', 'attendance'];
+		arr.forEach((type, i) => {
+			const data = window.localStorage.getItem(`arabic-${type}`);
+			if(!data || !Array.isArray(JSON.parse(data)) ) return;
+			actions.setData({type, data: JSON.parse(data)});
+		})
+	},[])
 
 
-	// useEffect(()=>{
-	// 	if(!persons.length) return;
-	// 	window.localStorage.setItem('arabic-alphabet-persons', JSON.stringify(persons))
-	// }, [persons])
+	function setDataOnLS(name='', data=[]){
+		if(!data.length) return;
+		window.localStorage.setItem(`arabic-${name}`, JSON.stringify(data))
+	}
+
+
+	useEffect(()=>{ setDataOnLS('list', personList) }, [personList])
+	useEffect(()=>{	setDataOnLS('exam', personExam) }, [personExam])
+	useEffect(()=>{	setDataOnLS('group', personGroup) }, [personGroup])
+	useEffect(()=>{	setDataOnLS('attendance', personAttendance) }, [personAttendance])
 	
+
 
 	return (<>
 		<div className='wrapper'>
@@ -47,7 +59,11 @@ function App(props) {
 						<Route path='group' element={<GroupPerson/>}/>
 					</Route>
 					<Route path="/statistic" element={<Statistic/>}/>
-					<Route path="/testing" element={<Testing/>}/>
+					<Route path="/testing">
+						<Route index element={<Testing/>} />
+						<Route path="alphabet/:testId" element={<AlphabetTest/>} />
+						<Route path="add/:testName" element={<AddTest/>} />
+					</Route>
 				</Routes>
 			</AnimatePresence>
 			{/* <Navigation/> */}

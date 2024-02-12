@@ -1,12 +1,12 @@
-import AddPerson from './AddPerson';
-import AddGroup from './AddGroup';
-import AddAttendance from './AddAttendance';
+import AddPerson from './ListPerson/add';
+import AddGroup from './GroupPerson/add';
+import AddAttendance from './Attendance/add';
 import Attendance from './Attendance';
-import List from './List';
+import List from './ListPerson';
 import GroupPerson from './GroupPerson';
-import InfoPerson from './InfoPerson';
-import InfoGroup from './InfoGroup';
-import InfoAttendance from './InfoAttendance';
+import InfoPerson from './ListPerson/info';
+import InfoGroup from './GroupPerson/info';
+import InfoAttendance from './Attendance/info';
 
 
 export {

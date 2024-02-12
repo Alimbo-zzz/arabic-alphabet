@@ -18,7 +18,7 @@ function Attendance (props) {
 		let val = searchValue.trim().toLowerCase();
 		const filter = [...attendance].map(el => el.name.trim().toLowerCase().search(val) === -1 ? {...el, visible: false} : {...el, visible: true})
 		setFilteredAttendance(filter)
-	},[searchValue])
+	},[searchValue, attendance])
 
 
 	const renderItem = el => (

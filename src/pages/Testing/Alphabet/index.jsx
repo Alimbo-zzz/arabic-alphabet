@@ -6,7 +6,7 @@ import cls from './style.module.scss';
 import AlphabetData from '@data/alphabet.json';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import classNames from 'classnames';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useParams, useLocation} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
 
@@ -15,8 +15,11 @@ import './swiper.scss';
 
 
 function Testing (props) {
+	const {testId} = useParams();
 	const persons = useSelector(state => state.persons.list);
+	const exams = useSelector(state => state.persons.exam);
 	const actions = useActions();
+	const location = useLocation();
 	const navigate = useNavigate();
 	const [slides, setSlides] = useState([]);
 	const [swiper, setSwiper] = useState(null);
@@ -31,6 +34,7 @@ function Testing (props) {
 	const [defaultPerson, setDefaultPerson] = useState('');
 	const [letters, setLetters] = useState([])
 	const [vocalization, setVocalization] = useState(false);
+
 
 	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name}))
 	const selectLimitOps = [
@@ -168,14 +172,13 @@ function Testing (props) {
 		e.preventDefault();
 		let true_answers = 0;
 		let length_answers = testResult.length;
-		let id = '';
+		let id = testId;
 		let personId = selectPerson;
 		testResult.forEach((el, i) => el.answer && (true_answers += 1));
 		
 		let result = {length_answers, true_answers, personId, id};
-		console.log(result)
-		// actions.addTestOnPerson({id: selectPerson, data: testResult})
-		// navigate('/')
+		actions.addTestOnPerson(result)
+		navigate('/')
 	}
 
 	const changeFinalCheckbox = (e) => {
@@ -227,7 +230,7 @@ function Testing (props) {
 					<div className={cls.letters__head}>
 						<label className={cls.letters__vocalization}>
 							<h4>Огласовки</h4>
-							<Checkbox onChange={setVocalization} type="square"/>
+							<Checkbox onChange={(e) => setVocalization(e.target.checked)} type="square"/>
 						</label>
 						<button className={cls.letters__btn} type='button' onClick={pickAll}> {allLettersSelected ? "Убрать всё" : "Выбрать всё"}</button>
 					</div>
@@ -265,8 +268,10 @@ function Testing (props) {
 					<ul name="results" className={cls.results__list}>
 						{testResult.map((el, i) => <label className={cls.results__item} key={el.id}>
 							<span>{i + 1}.</span>
-							<h4>{el.voice + el.simbol}</h4>
-							<input value={el.id} onChange={changeFinalCheckbox} type="checkbox" defaultChecked={el.answer} />
+							<div data-name='inp'>
+								<input value={el.id} onChange={changeFinalCheckbox} type="checkbox" defaultChecked={el.answer} />
+								<h4>{el.voice + el.simbol}</h4>
+							</div>
 						</label>)}
 					</ul>
 					<div className={cls.results__info}> 

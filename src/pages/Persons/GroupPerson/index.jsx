@@ -14,15 +14,11 @@ function GroupPerson (props) {
 	const [filteredGroup, setFilteredGroup] = useState([]);
 
 
-
 	useEffect(()=>{
 		let val = searchValue.trim().toLowerCase();
 		const filter = [...groups].map(el => el.name.trim().toLowerCase().search(val) === -1 ? {...el, visible: false} : {...el, visible: true})
 		setFilteredGroup(filter)
-	},[searchValue])
-
-
-
+	},[searchValue, groups])
 
 
 	const renderItem = el => (

@@ -9,7 +9,9 @@ function Search ({setter=null, placeholder='Поиск'}) {
 	const [searchValue, setSearchValue] = useState('');
 	const debouncedValue = useDebounce(searchValue);
 
-	useEffect(()=> (typeof setter === 'function') && setter(searchValue), [debouncedValue])
+	useEffect(()=> {
+		if(typeof setter === 'function') setter(searchValue)
+	}, [debouncedValue])
 
 	const resetSearch = () => setSearchValue('');
 

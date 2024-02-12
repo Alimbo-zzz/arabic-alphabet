@@ -3,7 +3,7 @@ import {Animate} from '@/contexts';
 import {Icon, Select} from '@/components';
 import {Link, useNavigate} from 'react-router-dom';
 import classNames from 'classnames';
-import cls from './style.module.scss';
+import cls from './add.module.scss';
 import {useSelector} from 'react-redux';
 import {useActions} from '@/hooks';
 

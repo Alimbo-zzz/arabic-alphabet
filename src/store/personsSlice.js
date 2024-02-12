@@ -5,60 +5,38 @@ const persons = createSlice({
 	name: 'persons',
 	initialState: {
 		list: [
-			{
-				id: 'user-1',
-				name: 'Алим Мамбетов',
-				phone: '89994921293',
-			},
-			{
-				id: 'user-2',
-				name: 'Ибрахим Мурачаев',
-				phone: '82349887564',
-			}
+			// {
+			// 	id: 'user-1',
+			// 	name: 'Алим Мамбетов',
+			// 	phone: '89994921293',
+			// },
 		],
 		group: [
-			{ 
-				id: 'group-1', 
-				name: 'Группа №1',
-				persons: ['user-1']
-			},
-			{	
-				id: 'group-2', 
-				name: 'Группа №2',
-				persons: ['user-2']
-			},
+			// { 
+			// 	id: 'group-1', 
+			// 	name: 'Группа №1',
+			// 	persons: ['user-1']
+			// },
 		],
 		attendance: [
-			{
-				id: 'attendance-1',
-				date: new Date().getTime(),
-				name: 'Урок №1',
-				data: [
-					{personId: 'user-1', status: 'absent'},
-					{personId: 'user-2', status: 'attend'},
-				]
-			},
-			{
-				id: 'attendance-2',
-				date: new Date().getTime(),
-				name: 'Урок №2',
-				data: []
-			},
-			{
-				id: 'attendance-3',
-				date: new Date().getTime(),
-				name: 'Урок №3',
-				data: []
-			},
+			// {
+			// 	id: 'attendance-1',
+			// 	date: new Date().getTime(),
+			// 	name: 'Урок №1',
+			// 	data: [
+			// 		{personId: 'user-1', status: 'absent'},
+			// 		{personId: 'user-2', status: 'attend'},
+			// 	]
+			// },
 		],
 		exam: [
-			{
-				id: 'exam-1',
-				type: 'alphabet',
-				name: 'alphabet-1',
-				date: new Date().getTime(),
-				data: []
-			}
+			// {
+			// 	id: 'exam-1',
+			// 	type: 'alphabet',
+			// 	name: 'alphabet-1',
+			// 	date: new Date().getTime(),
+			// 	data: []
+			// }
 		]
 	},
 	reducers: {
@@ -77,7 +55,7 @@ const persons = createSlice({
 			state.group.unshift(newObj)
 		 },
 		addAttendance: (state, {payload: name}) => { 
-			let newObj = { id: setId(), name, date: new Date().getTime() }
+			let newObj = { id: setId(), name, date: new Date().getTime(), data: [] }
 			state.attendance.unshift(newObj);
 		 },
 		changeAttendancePerson: (state, {payload}) => {
@@ -88,23 +66,43 @@ const persons = createSlice({
 			if(findPerson) findPerson.status = status;
 			else findItem.data.push({personId, status});
 		},
-		addTestOnPerson(state, {payload: {id, data}}){
-			const persons = current(state.list);
-			return persons.map(el => {
-				if(el.id !== id) return el;
-				let newData = [...el.data, [...data]];
-				return ({...el, data: newData})
-			})
+		addExam: (state, {payload}) => {
+			let {name, type} = payload;
+			let obj = {
+				id: setId(),
+				type,	name,
+				date: new Date().getTime(),
+				data: []
+			}
+			state.exam.unshift(obj);
+		},
+		addTestOnPerson(state, {payload}){
+			let {length_answers, true_answers, personId, id} = payload;		
+			let exams = state.exam.find(el => el.id === id)?.data;
+			let findPerson = exams.find(el => el.personId === personId);
+			let obj = {	personId, length_answers, true_answers };
+			if(!findPerson) exams.unshift(obj);
+			else for (const key in obj) { findPerson[key] = obj[key]; }
 		},
 		deletePerson: (state, {payload: id}) => current(state.list).filter(el => el.id !== id),
-		setData: (state, {payload: data}) => state.list = data,
+		setData: (state, {payload}) => {
+			let {type, data} = payload;
+			let types = {
+				list: () => state.list = data,
+				group: () => state.group = data,
+				attendance: () => state.attendance = data,
+				exam: () => state.exam = data,
+			}
+			if(typeof types[type]) types[type]();
+			else console.log('error');
+		},
 	}
 })
 
 const { actions, reducer } = persons;
 
 
-export const { addPerson, addGroup, addAttendance, changeAttendancePerson,
+export const { addPerson, addGroup, addAttendance, changeAttendancePerson, addExam,
 		
 addTestOnPerson, deletePerson, setData } = actions;
 export default reducer;

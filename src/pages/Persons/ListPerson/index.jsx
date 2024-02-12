@@ -19,7 +19,7 @@ function List (props) {
 		let val = searchValue.trim().toLowerCase();
 		const filter = [...persons].map(el => el.name.trim().toLowerCase().search(val) === -1 ? {...el, visible: false} : {...el, visible: true})
 		setFilteredPerson(filter)
-	},[searchValue])
+	},[searchValue, persons])
 
 
 	const renderItem = el => (
