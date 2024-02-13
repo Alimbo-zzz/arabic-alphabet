@@ -44,9 +44,7 @@ const persons = createSlice({
 			const {name, phone, group} = payload;
 			let newObj = {
 				id: setId(),
-				name, group, phone,
-				attendance: [],
-				exam: []
+				name: name, group, phone,
 			}
 			state.list.unshift(newObj)
 		 },
@@ -84,7 +82,16 @@ const persons = createSlice({
 			if(!findPerson) exams.unshift(obj);
 			else for (const key in obj) { findPerson[key] = obj[key]; }
 		},
-		deletePerson: (state, {payload: id}) => current(state.list).filter(el => el.id !== id),
+		deleteItem: (state, {payload}) => {
+			let {id, type} = payload;
+			let types = {
+				list: () => state.list = state.list.filter(el => el.id !== id),
+				group: () => state.group = state.group.filter(el => el.id !== id),
+				attendance: () => state.attendance = state.attendance.filter(el => el.id !== id), 
+				exam: () => state.exam = state.exam.filter(el => el.id !== id),
+			}
+			if(typeof types[type] === 'function') types[type]();
+		},
 		setData: (state, {payload}) => {
 			let {type, data} = payload;
 			let types = {
@@ -102,7 +109,8 @@ const persons = createSlice({
 const { actions, reducer } = persons;
 
 
-export const { addPerson, addGroup, addAttendance, changeAttendancePerson, addExam,
-		
-addTestOnPerson, deletePerson, setData } = actions;
+export const { 
+	addPerson, addGroup, addAttendance, 
+	changeAttendancePerson, addExam,		
+	addTestOnPerson, deleteItem, setData } = actions;
 export default reducer;

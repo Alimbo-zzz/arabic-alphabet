@@ -42,7 +42,7 @@
 		border-bottom: 2px solid;
 		padding: 5px;
 		transition: 0.3s;
-
+		text-transform: capitalize;
 
 		&:focus{border-color: orange;}
 	}

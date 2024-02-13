@@ -6,12 +6,14 @@ import {useSelector} from 'react-redux';
 import cls from './style.module.scss';
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
+import {useActions} from '@/hooks';
 
 
 function List (props) {
 	const persons = useSelector(state => state.persons.list);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredPerson, setFilteredPerson] = useState([]);
+	const actions = useActions();
 
 
 
@@ -20,6 +22,12 @@ function List (props) {
 		const filter = [...persons].map(el => el.name.trim().toLowerCase().search(val) === -1 ? {...el, visible: false} : {...el, visible: true})
 		setFilteredPerson(filter)
 	},[searchValue, persons])
+
+
+	const deleteItem = (el) => {
+		let value = confirm(`Вы точно хотите удалить персону ${el.name}?`);
+		if(value) actions.deleteItem({type: 'list', id: el.id})
+	}
 
 
 	const renderItem = el => (
@@ -33,7 +41,10 @@ function List (props) {
 					exit={{ opacity: 0, x: -100 }}
 				>
 					<h4>{el.name}</h4>
-					<button><Icon name='search-person'/></button>
+					<div className={cls.item__btns}>
+						<button onClick={() => deleteItem(el)}><Icon name='trash'/></button>
+						<button><Icon name='search-person'/></button>
+					</div>
 				</motion.li>
 			}
 		</AnimatePresence>

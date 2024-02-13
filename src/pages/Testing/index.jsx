@@ -4,17 +4,25 @@ import {Header, Search, Icon} from '@/components';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import { motion, AnimatePresence } from "framer-motion";
+import {Animate} from '@/contexts';
+import {useActions} from '@/hooks';
 
 
 function List (props) {
 	const [searchValue, setSearchValue] = useState('');
 	const exams = useSelector(state => state.persons.exam);
 	const [filteredExam, setFilteredExam] = useState([]);
-
+	const actions = useActions();
 
 	
 	const tests = {
 		alphabet: 'Алфавит'
+	}
+	
+	
+	const deleteItem = (el) => {
+		let value = confirm(`Вы точно хотите удалить ${el.name}?`);
+		if(value) actions.deleteItem({type: 'exam', id: el.id})
 	}
 
 
@@ -37,7 +45,10 @@ function List (props) {
 				>
 					<h4 data-name='title'>{el.name}</h4>
 					<h4 data-name='type'>{tests[el.type]}</h4>
-					<Link to={`/testing/${el.type}/${el.id}`} className={cls.item__btn}><Icon name='scale'/></Link>
+					<div className={cls.item__btns}>
+						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
+						<Link to={`/testing/${el.type}/${el.id}`} className={cls.item__btn}><Icon name='scale'/></Link>
+					</div>
 				</motion.li>
 			}
 		</AnimatePresence>
@@ -45,6 +56,7 @@ function List (props) {
 
 
 	return (<>
+	<Animate>
 		<div className={cls.wrap}>
 			<div className="container">
 				<Header title="Тесты"/>
@@ -57,6 +69,7 @@ function List (props) {
 				{filteredExam.map(renderItem)}
 			</ul>
 		</div>
+	</Animate>
 	</>);
 }
 

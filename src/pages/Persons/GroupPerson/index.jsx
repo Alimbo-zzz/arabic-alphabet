@@ -6,13 +6,23 @@ import {useSelector} from 'react-redux';
 import cls from './style.module.scss';
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
+import {useActions} from '@/hooks';
+
+
 
 
 function GroupPerson (props) {
 	const groups = useSelector(state => state.persons.group);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredGroup, setFilteredGroup] = useState([]);
+	const actions = useActions();
 
+
+	
+	const deleteItem = (el) => {
+		let value = confirm(`Вы точно хотите удалить ${el.name}?`);
+		if(value) actions.deleteItem({type: 'group', id: el.id})
+	}
 
 	useEffect(()=>{
 		let val = searchValue.trim().toLowerCase();
@@ -32,7 +42,10 @@ function GroupPerson (props) {
 					exit={{ opacity: 0, x: -100 }}
 				>
 					<h4>{el.name}</h4>
-					<button><Icon name='person-group'/></button>
+					<div className={cls.item__btns}>						
+						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
+						<button className={cls.item__btn}><Icon name='person-group'/></button>
+					</div>
 				</motion.li>
 			}
 		</AnimatePresence>

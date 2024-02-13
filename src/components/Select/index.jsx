@@ -18,7 +18,8 @@ Select.propTypes = {
 	"options": PropTypes.arrayOf(
 		PropTypes.shape({
 			value: PropTypes.string,
-			label: PropTypes.string
+			label: PropTypes.string,
+			mark: PropTypes.bool,
 		}).isRequired
 	),
 }
@@ -88,7 +89,8 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 					exit={{ opacity: 0, x: -100 }}
 					data-selected={el.value === activeValue.value}
 				>
-					{el.label}
+					<h4 style={{textAlign: typeof el?.mark === 'boolean' ? 'left' : 'center'}}>{el.label}</h4>
+					{el?.mark && <span/>}
 				</motion.li>
 			}
 		</AnimatePresence>

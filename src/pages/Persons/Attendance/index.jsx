@@ -6,11 +6,15 @@ import {useSelector} from 'react-redux';
 import cls from './style.module.scss';
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
+import {useActions} from '@/hooks';
+
+
 
 function Attendance (props) {
 	const attendance = useSelector(state => state.persons.attendance);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredAttendance, setFilteredAttendance] = useState([]);
+	const actions = useActions();
 
 
 
@@ -19,6 +23,12 @@ function Attendance (props) {
 		const filter = [...attendance].map(el => el.name.trim().toLowerCase().search(val) === -1 ? {...el, visible: false} : {...el, visible: true})
 		setFilteredAttendance(filter)
 	},[searchValue, attendance])
+
+	const deleteItem = (el) => {
+		let value = confirm(`Вы точно хотите удалить ${el.name}?`);
+		if(value) actions.deleteItem({type: 'attendance', id: el.id})
+	}
+
 
 
 	const renderItem = el => (
@@ -32,7 +42,10 @@ function Attendance (props) {
 					exit={{ opacity: 0, x: -100 }}
 				>
 					<h4>{el.name}</h4>
-					<Link to={'/persons/info-attendance/' + el.id} className={cls.item__btn}><Icon name='scale'/></Link>
+					<div className={cls.item__btns}>
+						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
+						<Link to={'/persons/info-attendance/' + el.id} className={cls.item__btn}><Icon name='scale'/></Link>
+					</div>
 				</motion.li>
 			}
 		</AnimatePresence>

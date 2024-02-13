@@ -36,7 +36,10 @@ function Testing (props) {
 	const [vocalization, setVocalization] = useState(false);
 
 
-	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name}))
+
+	const personTestCompleted = (personId) => exams.find(el => el.id === testId)?.data.find(el => el.personId === personId) ? true : false;
+	const selectPersonOps = [...persons].map(el => ({value: el.id, label: el.name, mark: personTestCompleted(el.id)}))
+
 	const selectLimitOps = [
 		{value: '15', label: '15'},
 		{value: '30', label: '30'},
@@ -226,7 +229,6 @@ function Testing (props) {
 				<Header title={'Тестирование'} />
 				<form className={cls.letters} onSubmit={send}>
 					<Select defaultValue={defaultPerson} search={true} onChange={checkValid} options={selectPersonOps} placeholder="Выберите человека"  width={'100%'} setter={setSelectPerson} />
-					<h3>Выберите буквы для теста</h3>
 					<div className={cls.letters__head}>
 						<label className={cls.letters__vocalization}>
 							<h4>Огласовки</h4>
