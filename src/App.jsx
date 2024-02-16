@@ -6,6 +6,8 @@ import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
 import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
 import {AlphabetTest, AddTest} from '@/pages/Testing/components';
+import defaultGroups from '@data/defaultGroups.json';
+
 
 function App(props) {
 	const location = useLocation();
@@ -14,8 +16,25 @@ function App(props) {
 	const personGroup = useSelector(state => state.persons.group);
 	const personAttendance = useSelector(state => state.persons.attendance);
 	const actions = useActions();
+	const query = new URLSearchParams(location.search);
 
-
+	function setDefaultData(){
+		const groups = JSON.parse(window.localStorage.getItem(`arabic-group`));
+		const persons = JSON.parse(window.localStorage.getItem(`arabic-list`));
+		if(Array.isArray(groups)){
+			defaultGroups.forEach((d_group, i) => {
+				let isExist = false;
+				groups.find(el => (el.id === d_group.id) && (isExist = true) )
+				if(!isExist) actions.addGroup({name: d_group.name, id: d_group.id});
+				
+				d_group.persons.forEach((person, person_i) => {
+					let isExist = false;
+					persons.find(el => (el.id === `person-${person_i}`) && (isExist = true))
+					if(!isExist) actions.addPerson({name: person.name, group: d_group.id, phone: person.phone, id: `person-${person_i}`});
+				})
+			})
+		}
+	}
 	
 	useEffect(()=>{
 		let arr = ['list', 'exam', 'group', 'attendance'];
@@ -24,6 +43,8 @@ function App(props) {
 			if(!data || !Array.isArray(JSON.parse(data)) ) return;
 			actions.setData({type, data: JSON.parse(data)});
 		})
+
+		if(query.get('type') === 'default-data') setDefaultData();
 	},[])
 
 

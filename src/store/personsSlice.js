@@ -42,8 +42,8 @@ const persons = createSlice({
 	},
 	reducers: {
 		addPerson: (state, {payload}) => { 
-			const {name, phone, group=''} = payload;
-			let newObj = { id: setId(), name, phone, group }
+			const {name, phone, group='', id=null} = payload;
+			let newObj = { id: id || setId(), name, phone, group }
 			state.list.unshift(newObj)
 			
 			const findGroup = state.group.find(el => el.id === group);
@@ -67,8 +67,9 @@ const persons = createSlice({
 			let findGroup = state.group.find(el => el.id === groupId);
 			if(findGroup) findGroup.data.unshift(personId);			
 		},
-		addGroup: (state, {payload: name}) => { 
-			let newObj = { id: setId(), name, data: [] }
+		addGroup: (state, {payload}) => {
+			let {name, id} = payload; 
+			let newObj = { id: id || setId(), name, data: [] }
 			state.group.unshift(newObj)
 		 },
 		addAttendance: (state, {payload: name}) => { 

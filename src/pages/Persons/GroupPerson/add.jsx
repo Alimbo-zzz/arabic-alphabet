@@ -39,7 +39,7 @@ function AddGroup (props) {
 
 	function send(e){
 		e.preventDefault();
-		addGroup(groupName);
+		addGroup({name: groupName});
 		back();
 	}
 	
