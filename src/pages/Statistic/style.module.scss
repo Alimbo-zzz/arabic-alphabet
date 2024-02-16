@@ -66,13 +66,17 @@
 	width: 100%;
 	flex-direction: column;
 
+	svg{
+		transform: translateY(-50px);
+	}
+
 
 	&__list{
 		display: flex;
 		align-items: center;
 		gap: 10px;
 		z-index: 10;
-		translate: 0 -30px;
+		translate: 0 -50px;
 	}
 
 	&__pag{

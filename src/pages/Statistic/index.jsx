@@ -5,7 +5,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import cls from './style.module.scss';
 import {useSelector} from 'react-redux';
-import './chart.scss';
 
 
 function Statistic (props) {
@@ -22,7 +21,8 @@ function Statistic (props) {
 	]);
 
 
-	const chartOps = {
+	const chartOps = {		
+		slotProps:{	legend: {	hidden: true},},
 		data,
 		innerRadius: 26,
 		outerRadius: 135,
@@ -79,7 +79,8 @@ function Statistic (props) {
 		xAxis: [{data: getXAxis() || [], scaleType: 'point',}], 
 		series: getSeries(),
 		width:500,
-		height:300,
+		height:300,		
+		slotProps:{	legend: {	hidden: true},},
 	}
 
 	useEffect(()=>{
