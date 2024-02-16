@@ -44,7 +44,7 @@ function GroupPerson (props) {
 					<h4>{el.name}</h4>
 					<div className={cls.item__btns}>						
 						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
-						<button className={cls.item__btn}><Icon name='person-group'/></button>
+						<Link to={'/persons/list/' + el.id} className={cls.item__btn}><Icon name='person-group'/></Link>
 					</div>
 				</motion.li>
 			}

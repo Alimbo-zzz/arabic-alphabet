@@ -13,6 +13,7 @@ Select.propTypes = {
 	"className": PropTypes.string,
 	"defaultValue": PropTypes.string,
 	"search": PropTypes.bool,
+	"visible": PropTypes.bool,
 	"width": PropTypes.string,
 	"placeholder": PropTypes.string,
 	"options": PropTypes.arrayOf(
@@ -24,7 +25,7 @@ Select.propTypes = {
 	),
 }
 
-function Select ({width="200px", onChange=null, search=false, setter=null, onClick=null, defaultValue='', className='', options=[], placeholder='',  ...props}) {
+function Select ({width="200px", onChange=null, visible=true, search=false, setter=null, onClick=null, defaultValue='', className='', options=[], placeholder='',  ...props}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeValue, setActiveValue] = useState({value: '', label: ''});
 	const [searchValue, setSearchValue] = useState('');
@@ -98,8 +99,8 @@ function Select ({width="200px", onChange=null, search=false, setter=null, onCli
 
 	
 	return (<>
-		<div style={{width}} className={classNames([cls.select, className])}>
-			<input {...props} placeholder={placeholder} value={activeValue?.label} className={cls.select__preview} type="text" {...inpOps}  />
+		<div style={{width, position: visible ? 'relative' : 'absolute'}} className={classNames([cls.select, className])}>
+			<input style={{display: visible ? 'block' : 'none'}} {...props} placeholder={placeholder} value={activeValue?.label} className={cls.select__preview} type="text" {...inpOps}  />
 			<div data-open={isOpen} className={cls.select__modal}>
 				<div data-modal="head" className='container'>
 					<button type='button' onClick={closeModal} data-modal="close"><Icon name="cross"/></button>

@@ -5,6 +5,11 @@
 	gap: 10px;
 	width: 100%;
 
+	&__title{
+		text-align: center;
+		font-size: 26px;
+	}
+
 	a{
 		color: #222;
 		display: block;

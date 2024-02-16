@@ -1,0 +1,291 @@
+.wrap{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	height: 100vh;
+	overflow-y: auto;
+	padding-bottom: 20%;
+	position: relative;
+}
+
+
+
+.head{
+	position: sticky;
+	top: 0;
+	background: #fff;
+
+	&__cont{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px 0;
+		padding-left: 10px;
+	}
+
+
+	&__close{
+		width: 40px;
+		aspect-ratio: 1/1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 30px;
+		background: none;
+		border: none;
+	}
+
+}
+
+
+.information{
+	display: flex;
+	flex-direction: column;
+	gap: 15px
+}
+
+
+.info{
+	display: grid;
+	grid-template-columns: 70px 1fr 80px;
+	align-items: center;
+	gap: 14px;
+	padding: 0 12px;
+	box-shadow: 2px 2px 15px rgba($color: #000000, $alpha: 0.2);
+	border-radius: 5px;
+	height: 60px;
+
+
+	&__key, &__title{
+		font-size: 16px;
+		padding-top: 5px;
+		font-weight: 400;
+		color: #333;
+	}
+	
+
+
+	&__btns{
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 5px;
+	}
+}
+
+
+.icon{
+	width: 40px;
+	aspect-ratio: 1/1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(to bottom, #00E0FF, #1080BF);
+	box-shadow: 2px 3px 5px rgba($color: #000000, $alpha: 0.2);
+	color: #fff;
+	border: none;
+	font-size: 25px;
+	border-radius: 50%;
+	@include active-anim;
+}
+
+
+
+.exams{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	&__title{
+		text-align: center;
+		padding-top: 5px;
+	}
+
+
+	&__list{		
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		overflow-y: auto;
+		height: 100%;
+		max-width: $phone;
+		margin: 0 auto;
+		width: 100%;
+		padding: 20px 10px;
+	}
+
+
+	&__item{
+		padding: 15px;
+		box-shadow: 2px 2px 15px rgba($color: #000000, $alpha: 0.2);
+		border-radius: 5px;	
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}
+
+
+.form{
+	position: fixed;
+	left: 0;top: 0;
+	width: 100%;
+	background: #fff;
+	z-index: 100;
+	padding: 50px 0;
+	padding-top: 20px;
+	box-shadow: 0 5px 5px rgba($color: #000000, $alpha: 0.2);
+	color: #333;
+	transition: 0.3s;
+
+	opacity: 0;
+	translate: 0 -110%;
+	pointer-events: none;
+
+	&[data-open='true']{
+		opacity: 1;
+		translate: 0;
+		pointer-events: auto;
+	}
+
+	
+
+
+	&__cont{
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	&__head{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__inp{
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	input{
+		display: block;
+		color: currentColor;
+		width: 100%;
+		border: none;
+		font-size: 30px;
+		border-bottom: 2px solid;
+	}
+
+
+	&__btns{
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+	}
+
+	button{
+		background: linear-gradient(to top, #333, #666);
+		box-shadow: 2px 2px 10px rgba($color: #000000, $alpha: 0.5);
+		color: #fff;
+		border: none;
+		transition: 0.15s;
+		padding: 8px;
+		border-radius: 5px;
+		@include active-anim;
+
+		&:disabled{
+			opacity: 0.3;
+			pointer-events: none;
+		}
+	}
+
+	button[type='reset']{
+		width: 40px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 20px;
+		padding: 0;
+
+		&:disabled{	opacity: 0; }
+	}
+
+	button[type='button']{
+		background: none;
+		color: #333;
+		box-shadow: none;
+		font-weight: 800;
+		border-radius: 0;
+		padding: 3px;
+		border-bottom: 2px solid;
+	}
+}
+
+
+.select{
+	position: fixed;
+	left: 0;top: 0;
+	width: 100%;height: 100%;
+	background: #fff;
+	z-index: 1000;
+	padding: 24% 0;
+	overflow-y: auto;
+	transition: 0.3s;
+	
+	opacity: 0;
+	translate: 0 110%;
+	pointer-events: none;
+
+	&[data-open="true"]{
+		opacity: 1;
+		translate: 0;
+		pointer-events: auto;
+	}
+
+
+
+	&__cross{
+		position: absolute;
+		right: 15px;top: 15px;
+		width: 40px;
+		aspect-ratio: 1/1;
+		border-radius: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 30px;
+		background: #333;
+		color: #fff;
+		border: none;
+		box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.5);
+	}
+
+
+	&__list{
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+
+	&__item{
+		box-shadow: 2px 2px 10px rgba($color: #000000, $alpha: 0.2);
+		padding: 10px;
+		text-align: center;
+		border-radius: 6px;
+		transition: 0.3s;
+		@include active-anim;
+
+
+		&[data-active='true']{
+			pointer-events: none;
+			background: #333;
+			color: #fff;
+		}
+	}
+
+}

@@ -13,7 +13,7 @@ function Header ({title, nav='/'}) {
 	return (<>
 		<header className={classNames([cls.header])} >
 			<button onClick={back}> <Icon name='arrow-long'/> </button>
-			<h1 className='title'>{title}</h1>
+			<h1 className={cls.header__title}>{title}</h1>
 		</header>
 	</>);
 }

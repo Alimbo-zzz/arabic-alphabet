@@ -25,7 +25,7 @@ function AddPerson (props) {
 		let phone = personPhone.trim().length;
 
 		if(name <= 4) valid = false;
-		if(phone > 0 && phone <= 11) valid = false;
+		if(phone > 0 && phone < 11) valid = false;
 
 		setIsValid(valid);
 	}, [personPhone, personName])

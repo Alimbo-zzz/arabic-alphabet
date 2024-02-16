@@ -180,8 +180,9 @@ function Testing (props) {
 		testResult.forEach((el, i) => el.answer && (true_answers += 1));
 		
 		let result = {length_answers, true_answers, personId, id};
-		actions.addTestOnPerson(result)
-		navigate('/')
+		actions.addTestOnPerson(result);
+
+		navigate(-1)
 	}
 
 	const changeFinalCheckbox = (e) => {

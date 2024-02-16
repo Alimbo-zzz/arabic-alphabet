@@ -9,13 +9,14 @@ const persons = createSlice({
 			// 	id: 'user-1',
 			// 	name: 'Алим Мамбетов',
 			// 	phone: '89994921293',
+			//	group: 'group-id'
 			// },
 		],
 		group: [
 			// { 
 			// 	id: 'group-1', 
 			// 	name: 'Группа №1',
-			// 	persons: ['user-1']
+			// 	data: ['user-1']
 			// },
 		],
 		attendance: [
@@ -41,20 +42,38 @@ const persons = createSlice({
 	},
 	reducers: {
 		addPerson: (state, {payload}) => { 
-			const {name, phone, group} = payload;
-			let newObj = {
-				id: setId(),
-				name: name, group, phone,
-			}
+			const {name, phone, group=''} = payload;
+			let newObj = { id: setId(), name, phone, group }
 			state.list.unshift(newObj)
+			
+			const findGroup = state.group.find(el => el.id === group);
+			if(findGroup) findGroup.data.push(newObj.id);
 		 },
+		changePerson: (state, {payload}) => {
+			const {id, phone, group, name} = payload;
+			let findPerson = state.list.find(el => el.id === id);
+			if(findPerson){
+				findPerson.phone = phone;
+				findPerson.group = group;
+				findPerson.name = name;
+			}
+		},
+		updateGroupToPerson: (state, {payload}) => {
+			let {groupId, personId} = payload;
+			let findPerson = state.list.find(el => el.id === personId);
+			if(!findPerson) return;
+			state.group.map(({data, ...ops}) => ({...ops, data: data.filter(id => id !== personId)}))
+			findPerson.group = groupId;
+			let findGroup = state.group.find(el => el.id === groupId);
+			if(findGroup) findGroup.data.unshift(personId);			
+		},
 		addGroup: (state, {payload: name}) => { 
-			let newObj = { id: setId(), name }
+			let newObj = { id: setId(), name, data: [] }
 			state.group.unshift(newObj)
 		 },
 		addAttendance: (state, {payload: name}) => { 
 			let newObj = { id: setId(), name, date: new Date().getTime(), data: [] }
-			state.attendance.unshift(newObj);
+			state.attendance.unshift(newObj)
 		 },
 		changeAttendancePerson: (state, {payload}) => {
 			let {personId, status, id} = payload;
@@ -112,5 +131,7 @@ const { actions, reducer } = persons;
 export const { 
 	addPerson, addGroup, addAttendance, 
 	changeAttendancePerson, addExam,		
-	addTestOnPerson, deleteItem, setData } = actions;
+	addTestOnPerson, deleteItem, setData,
+	changePerson, updateGroupToPerson,
+} = actions;
 export default reducer;

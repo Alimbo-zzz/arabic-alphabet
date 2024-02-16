@@ -5,7 +5,6 @@ import Attendance from './Attendance';
 import List from './ListPerson';
 import GroupPerson from './GroupPerson';
 import InfoPerson from './ListPerson/info';
-import InfoGroup from './GroupPerson/info';
 import InfoAttendance from './Attendance/info';
 
 
@@ -17,6 +16,5 @@ export {
 	List,
 	GroupPerson,
 	InfoPerson,
-	InfoGroup,
 	InfoAttendance,
 }

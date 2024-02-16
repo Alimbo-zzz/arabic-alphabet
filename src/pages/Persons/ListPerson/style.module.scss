@@ -17,8 +17,7 @@
 		width: 100%;
 		padding: 8px 10px;
 		border: none;
-		border-bottom: 2px solid rgba($color: #000000, $alpha: 0.2);	
-		text-transform: capitalize;
+		border-bottom: 2px solid rgba($color: #000000, $alpha: 0.2);
 	}
 
 
@@ -71,7 +70,6 @@
 	border-radius: 10px;
 	background: linear-gradient(to bottom, #00E0FF, #1080BF);
 	color: #fff;
-	text-transform: capitalize;
 
 
 	&__btns{
@@ -80,7 +78,7 @@
 		align-items: center;
 	}
 
-	button{
+	&__btn{
 		background: #fff;
 		border: none;
 		width: 40px;

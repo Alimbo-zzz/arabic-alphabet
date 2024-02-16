@@ -4,7 +4,7 @@ import { Alphabet, Main, Persons, Statistic, Testing } from '@/pages';
 import {AnimatePresence} from 'framer-motion';
 import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
-import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoGroup, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
+import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
 import {AlphabetTest, AddTest} from '@/pages/Testing/components';
 
 function App(props) {
@@ -28,7 +28,6 @@ function App(props) {
 
 
 	function setDataOnLS(name='', data=[]){
-		if(!data.length) return;
 		window.localStorage.setItem(`arabic-${name}`, JSON.stringify(data))
 	}
 
@@ -36,7 +35,7 @@ function App(props) {
 	useEffect(()=>{ setDataOnLS('list', personList) }, [personList])
 	useEffect(()=>{	setDataOnLS('exam', personExam) }, [personExam])
 	useEffect(()=>{	setDataOnLS('group', personGroup) }, [personGroup])
-	useEffect(()=>{	setDataOnLS('attendance', personAttendance) }, [personAttendance])
+	useEffect(()=>{ setDataOnLS('attendance', personAttendance) }, [personAttendance])
 	
 
 
@@ -49,8 +48,8 @@ function App(props) {
 					<Route path="/persons">						
 						<Route index element={<Persons/>}/>
 						<Route path='list' element={<List/>}/>
-						<Route path='info-group/:id' element={<InfoGroup/>}/>
-						<Route path='info-person/:id' element={<InfoPerson/>}/>
+						<Route path='list/:groupId' element={<List type="group"/>}/>
+						<Route path='info-person/:personId' element={<InfoPerson/>}/>
 						<Route path='info-attendance/:id' element={<InfoAttendance/>}/>
 						<Route path='attendance' element={<Attendance/>}/>
 						<Route path='add-person' element={<AddPerson/>}/>
@@ -66,7 +65,6 @@ function App(props) {
 					</Route>
 				</Routes>
 			</AnimatePresence>
-			{/* <Navigation/> */}
 		</div>
 	</>);
 }
