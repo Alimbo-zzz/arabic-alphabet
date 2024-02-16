@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import cls from './info.module.scss';
-import {Header, Select, Radio} from '@/components';
+import {Header, Radio} from '@/components';
+import {ReactSelect} from '@/components/Select';
 import {useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,7 +50,7 @@ function InfoAttendance (props) {
 	const groups = useSelector(state => state.persons.group);
 	const [title, setTitle] = useState('');
 	const [data, setData] = useState([]);
-	const [selectData, setSelectData] = useState('');
+	const [filterGroup, setFilterGroup] = useState(window.localStorage.getItem('arabic-attendance-group-selected') || '');
 	const {changeAttendancePerson} = useActions();
 	
  
@@ -69,12 +70,17 @@ function InfoAttendance (props) {
 			let status = attendence.find(el => el.id === params.id).data?.find(el => el?.personId === person?.id)?.status;
 			return ({...person, status, visible: true});
 		});
-		let groupArr = groups.find(el => el.id === selectData);
-		let filtered = arr.filter(el => groupArr?.persons.includes(el.id))
+		let groupArr = groups.find(el => el.id === filterGroup);
+		let filtered = arr.filter(el => groupArr?.data.includes(el.id))
 		let result = groupArr ? filtered : arr;
 		setData(result);
-	}, [persons, selectData])
+	}, [persons, filterGroup])
 
+	useEffect(()=>{
+		window.localStorage.setItem('arabic-attendance-group-selected', filterGroup)
+	}, [filterGroup])
+
+	
 
 
 	return (<>
@@ -82,7 +88,7 @@ function InfoAttendance (props) {
 			<div className="container">
 				<div className={cls.head}>
 					<Header title={title} nav={-1}/>
-					<Select setter={setSelectData} options={selectOps}/>
+					<ReactSelect value={filterGroup} setter={setFilterGroup} options={selectOps}/>
 				</div>
 			</div>
 			<ul className={cls.list}>

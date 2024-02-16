@@ -7,7 +7,7 @@ import cls from './style.module.scss';
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
 import {useActions} from '@/hooks';
-
+import {unixData} from './h_date.js';
 
 
 function Attendance (props) {
@@ -30,6 +30,9 @@ function Attendance (props) {
 	}
 
 
+	const getDate = (date) => unixData(date).made.ru.contextDateMonthYear;
+
+
 
 	const renderItem = el => (
 		<AnimatePresence key={el.id}>
@@ -42,6 +45,7 @@ function Attendance (props) {
 					exit={{ opacity: 0, x: -100 }}
 				>
 					<h4>{el.name}</h4>
+					<p>{getDate(el.date)}</p>
 					<div className={cls.item__btns}>
 						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
 						<Link to={'/persons/info-attendance/' + el.id} className={cls.item__btn}><Icon name='scale'/></Link>
