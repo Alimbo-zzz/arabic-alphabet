@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import { motion, AnimatePresence } from "framer-motion";
 import {Animate} from '@/contexts';
 import {useActions} from '@/hooks';
+import tests from '@data/exams.json';
 
 
 function List (props) {
@@ -14,11 +15,6 @@ function List (props) {
 	const [filteredExam, setFilteredExam] = useState([]);
 	const actions = useActions();
 
-	
-	const tests = {
-		alphabet: 'Алфавит'
-	}
-	
 	
 	const deleteItem = (el) => {
 		let value = confirm(`Вы точно хотите удалить ${el.name}?`);
@@ -62,7 +58,7 @@ function List (props) {
 				<Header title="Тесты"/>
 				<div className={cls.head}>
 					<Search setter={setSearchValue} />
-					<Link to='/testing/add/alphabet' className={cls.head__icon}> <Icon name='test-a'/> </Link>
+					<Link to='/testing/add' className={cls.head__icon}> <Icon name='test-a'/> </Link>
 				</div>
 			</div>
 			<ul className={cls.list}>

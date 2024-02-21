@@ -23,7 +23,7 @@ Select.propTypes = {
 	),
 }
 
-function Select ({width="200px", visible=true, search=false, value="", setter=null, className='', options=[], placeholder='',  ...props}) {
+function Select ({width="200px", visible=true, search=false, value="", setter=null, className='', options=[], placeholder='не выбрано',  ...props}) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredData, setFilteredData] = useState([...options]);
@@ -52,7 +52,7 @@ function Select ({width="200px", visible=true, search=false, value="", setter=nu
 	const inpOps = {
 		readOnly: true,
 		onClick: openModal,
-		value: options.find(el => el.value === value)?.label || (setter(options[0].value)),
+		value: options.find(el => el.value === value)?.label || (setter(options[0]?.value) || placeholder),
 	  placeholder,
 		style:{display: visible ? 'block' : 'none'},
 	}

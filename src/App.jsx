@@ -5,7 +5,7 @@ import {AnimatePresence} from 'framer-motion';
 import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
 import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
-import {AlphabetTest, AddTest} from '@/pages/Testing/components';
+import {AlphabetTest, AddTest, Exam} from '@/pages/Testing/components';
 import defaultGroups from '@data/defaultGroups.json';
 
 
@@ -16,7 +16,8 @@ function App(props) {
 	const personGroup = useSelector(state => state.persons.group);
 	const personAttendance = useSelector(state => state.persons.attendance);
 	const actions = useActions();
-	const query = new URLSearchParams(location.search);
+	const query = new URLSearchParams(location.search); 
+
 
 	function setDefaultData(){
 		const groups = JSON.parse(window.localStorage.getItem(`arabic-group`));
@@ -82,7 +83,8 @@ function App(props) {
 					<Route path="/testing">
 						<Route index element={<Testing/>} />
 						<Route path="alphabet/:testId" element={<AlphabetTest/>} />
-						<Route path="add/:testName" element={<AddTest/>} />
+						<Route path="exam/:testId" element={<Exam/>} />
+						<Route path="add" element={<AddTest/>} />
 					</Route>
 				</Routes>
 			</AnimatePresence>

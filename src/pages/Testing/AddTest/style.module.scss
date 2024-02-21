@@ -65,3 +65,28 @@
 		pointer-events: none;
 	}
 }
+
+
+
+
+
+.list{
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	
+
+
+	&__item{
+		box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.2);
+		padding: 12px;
+		color: #fff;
+		background: linear-gradient(to top, #333, #666);
+		border-radius: 5px;
+		@include active-anim();
+	}
+}
+
+
+
+
