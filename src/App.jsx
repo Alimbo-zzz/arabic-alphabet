@@ -10,7 +10,7 @@ import {AlphabetTest, AddTest, Exam} from '@/pages/Testing/components';
 import defaultGroups from '@data/defaultGroups.json'; 	
 import req from '@/scripts/req';
 
-const baseURL = 'http://localhost:2020';
+const baseURL = 'https://arabic-masjid-git-master-alimbo-zzz.vercel.app';
 
 
 function App(props) {
@@ -116,7 +116,7 @@ function App(props) {
 			redirect: "follow"
 		};
 
-		fetch("http://localhost:2020/setData?type=attendance", requestOptions)
+		fetch(`${baseURL}/setData?type=attendance`, requestOptions)
 			.then((response) => response.text())
 			.then((result) => console.log(result))
 			.catch((error) => console.error(error));
