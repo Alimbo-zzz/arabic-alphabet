@@ -95,9 +95,9 @@ function App(props) {
 		if(window.localStorage.getItem('admin') === 'true') actions.setIsAdmin(true);	
 	}
 	
+	useEffect(checkAdmin,[])
 	useEffect(stateSetter,[serverData])
-	useEffect(() => {
-		checkAdmin();
+	useEffect(() => { 
 		setDefaultData().finally(getServerData);
 	},[])
 
