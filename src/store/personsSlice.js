@@ -1,5 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit';
 import { v4 as setId } from 'uuid';
+import {gradeVariants, attendanceVariants} from '@data/personData.json';
 
 const persons = createSlice({
 	name: 'persons',
@@ -24,6 +25,7 @@ const persons = createSlice({
 			// 	id: 'attendance-1',
 			// 	date: new Date().getTime(),
 			// 	name: 'Урок №1',
+			// 	graph: false,
 			// 	data: [
 			// 		{personId: 'user-1', status: 'absent'},
 			// 		{personId: 'user-2', status: 'attend'},
@@ -72,17 +74,28 @@ const persons = createSlice({
 			let newObj = { id: id || setId(), name, data: [] }
 			state.group.unshift(newObj)
 		 },
-		addAttendance: (state, {payload: name}) => { 
-			let newObj = { id: setId(), name, date: new Date().getTime(), data: [] }
+		addAttendance: (state, {payload}) => { 
+			const {name='',  graph=false} = payload;
+			let newObj = { id: setId(), name, date: new Date().getTime(), graph, data: [] }
 			state.attendance.unshift(newObj)
 		 },
+		changeAttendanceGraph: (state, {payload}) => { 
+			const {id,  graph=false} = payload;
+			const findItem = state.attendance.find(el => el.id === id);
+			if(findItem) findItem.graph = graph;
+		 },
 		changeAttendancePerson: (state, {payload}) => {
-			let {personId, status, id} = payload;
-			let findItem = state.attendance.find(el => el.id === id);
+			let {personId, status=null, grade=0, id} = payload;
+			const findStatus = attendanceVariants.find(el => el === status);
+			const findGrade = gradeVariants.find(el => el == grade);
+			const findItem = state.attendance.find(el => el.id === id);
 			if(!findItem) return;
 			let findPerson = findItem?.data?.find(el => el.personId === personId);
-			if(findPerson) findPerson.status = status;
-			else findItem.data.push({personId, status});
+			if(findPerson) {
+				findStatus && (findPerson.status = findStatus);
+				findGrade && (findPerson.grade = findGrade);
+			}
+			else findItem.data.push({	personId, status: findStatus, grade: findGrade });
 		},
 		addExam: (state, {payload}) => {
 			let {name, type} = payload;
@@ -134,5 +147,6 @@ export const {
 	changeAttendancePerson, addExam,		
 	addTestOnPerson, deleteItem, setData,
 	changePerson, updateGroupToPerson,
+	changeAttendanceGraph, 
 } = actions;
 export default reducer;

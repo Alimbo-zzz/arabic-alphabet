@@ -13,6 +13,7 @@ function List ({type='base'}) {
 	const {groupId} = useParams();
 	const persons = useSelector(state => state.persons.list);
 	const groups = useSelector(state => state.persons.group);
+	const {isAdmin} = useSelector(state => state.admin);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredPerson, setFilteredPerson] = useState([]);
 	const [isGroupType, setisGroupType] = useState(false);
@@ -62,7 +63,7 @@ function List ({type='base'}) {
 				>
 					<h4>{el.name}</h4>
 					<div className={cls.item__btns}>
-						<button className={cls.item__btn} onClick={() => deleteItem(el)}><Icon name='trash'/></button>
+						<button style={{display: isAdmin ? "flex" : "none"}} className={cls.item__btn} onClick={() => deleteItem(el)}><Icon name='trash'/></button>
 						<Link to={"/persons/info-person/" + el.id} className={cls.item__btn} ><Icon name='search-person'/></Link>
 					</div>
 				</motion.li>
@@ -78,7 +79,7 @@ function List ({type='base'}) {
 					<Header title={isGroupType ? groupName : "Список людей"} nav={-1}/>
 					<div className={cls.head}>
 						<Search setter={setSearchValue} />
-						<Link to='/persons/add-person' className={cls.add_btn}> <Icon name='person-add' /> </Link>
+						<Link style={{display: isAdmin ? "flex" : "none"}} to='/persons/add-person' className={cls.add_btn}> <Icon name='person-add' /> </Link>
 					</div>
 				</div>
 

@@ -13,6 +13,7 @@ import {useActions} from '@/hooks';
 
 function GroupPerson (props) {
 	const groups = useSelector(state => state.persons.group);
+	const {isAdmin} = useSelector(state => state.admin);
 	const [searchValue, setSearchValue] = useState('');
 	const [filteredGroup, setFilteredGroup] = useState([]);
 	const actions = useActions();
@@ -43,7 +44,7 @@ function GroupPerson (props) {
 				>
 					<h4>{el.name}</h4>
 					<div className={cls.item__btns}>						
-						<button onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
+						<button style={{display: isAdmin ? "flex" : "none"}} onClick={() => deleteItem(el)} className={cls.item__btn}><Icon name='trash'/></button>
 						<Link to={'/persons/list/' + el.id} className={cls.item__btn}><Icon name='person-group'/></Link>
 					</div>
 				</motion.li>
@@ -58,7 +59,7 @@ function GroupPerson (props) {
 					<Header title="Группы" nav='/persons'/>
 					<div className={cls.head}>
 						<Search setter={setSearchValue} />
-						<Link to='/persons/add-group' className={cls.add_btn}><Icon name='person-group-add'/></Link>
+						<Link style={{display: isAdmin ? "flex" : "none"}} to='/persons/add-group' className={cls.add_btn}><Icon name='person-group-add'/></Link>
 					</div>
 					
 				</div>

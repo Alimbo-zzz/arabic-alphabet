@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Animate} from '@/contexts';
-import {Icon} from '@/components';
+import {Icon, Checkbox} from '@/components';
 import {Link, useNavigate} from 'react-router-dom';
 import classNames from 'classnames';
 import cls from './add.module.scss';
@@ -12,6 +12,7 @@ function AddAttendance (props) {
 	const {addAttendance} = useActions();
 	const [attendanceName, setAttendanceName] = useState('');
 	const [isValid, setIsValid] = useState(false);
+	const [isGraph, setIsGraph] = useState(false);
 
 
 
@@ -38,7 +39,7 @@ function AddAttendance (props) {
 
 	function send(e){
 		e.preventDefault();
-		addAttendance(attendanceName);
+		addAttendance({name: attendanceName, graph: isGraph});
 		back();
 	}
 	
@@ -51,6 +52,7 @@ function AddAttendance (props) {
 				</div>
 				<form autoComplete='off' onSubmit={send} className={cls.form}>
 					<input className={cls.form__inp} {...inpNameOps} />
+					<label><Checkbox checked={isGraph} onChange={e => setIsGraph(e.target.checked)} name="graph"/> <span>Чтение Мусхафа</span></label>
 					<button disabled={!isValid} type='submit' className={cls.form__btn}>Создать</button>
 				</form>
 			</div>

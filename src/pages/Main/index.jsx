@@ -19,15 +19,16 @@ function Main (props) {
 			text: "Люди",
 			icon: "persons"
 		},
+		// {
+		// 	route: "/statistic",
+		// 	text: "Статистика",
+		// 	icon: "chart"
+		// },
 		{
-			route: "/statistic",
-			text: "Статистика",
-			icon: "chart"
-		},
-		{
-			route: "/testing",
-			text: "Тестирование",
-			icon: "test"
+			route: "/graph",
+			text: "Чтение Мусхафа",
+			icon: "test",
+			gap: 2
 		},
 	]
 
@@ -36,7 +37,7 @@ function Main (props) {
 
 
 	const RenderTile = (el, i) => (
-	<Link key={i} to={el.route} className={cls.wrap__tile}>
+	<Link key={i} to={el.route} className={cls.wrap__tile} data-gap={el?.gap}>
 		<Icon name={el.icon}/>
 		<h4>{el.text}</h4>
 	</Link>
@@ -47,7 +48,7 @@ function Main (props) {
 	return (<>
 		<Animate>
 			<div className={classNames([cls.wrap, 'container'])}>
-				<h1 className={cls.wrap__title}>Арабский алфавит</h1>
+				<h2 className={cls.wrap__title}>Арабский <br /> Центральная мечеть</h2>
 				<div className={cls.wrap__tiles}>
 					{tiles.map(RenderTile)}
 				</div>

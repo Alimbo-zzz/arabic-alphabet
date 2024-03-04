@@ -6,14 +6,10 @@ import {useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import { motion, AnimatePresence } from "framer-motion";
 import {useActions} from '@/hooks';
+import {attendanceData as radioList} from '@data/personData.json';
 
 
-const renderItem = (el, setter, id) => {
-	const radioList = [
-		{	value:"absent", icon:"minus", color:"#C92E23" },
-		{	value:"reason", icon:"reason", color:"#DCAF29" },
-		{	value:"attend", icon:"tick", color:"#33C92F" },
-	]
+const renderItem = (el, setter, id, isAdmin) => {
 
 	return <AnimatePresence key={el.id}>
 		{
@@ -25,16 +21,18 @@ const renderItem = (el, setter, id) => {
 				exit={{ opacity: 0, x: -100 }}
 			>
 				<h4 className={cls.item__person}>{el.name}</h4>
-				<div className={cls.item__radio}>
-					{radioList.map((radio, idx) => <Radio 
-						key={idx}
-						defaultChecked={el.status === radio.value} 
-						width="100%"
-						icon={radio.icon}
-						color={radio.color} 
-						name={el.id}
-						onChange={e => setter({id, personId: el.id, status: radio.value})}
-					/>)}
+				<div className={cls.item__radio} style={{pointerEvents: isAdmin ? 'auto' : 'none'}}>
+					{radioList.map((radio, idx) => (
+						<Radio 
+							key={idx}
+							defaultChecked={el.status === radio.value} 
+							width="100%"
+							icon={radio.icon}
+							color={radio.color} 
+							name={el.id}
+							onChange={e => setter({id, personId: el.id, status: radio.value})}
+						/>
+					))}
 				</div>
 			</motion.li>
 		}
@@ -48,6 +46,7 @@ function InfoAttendance (props) {
 	const attendence = useSelector(state => state.persons.attendance);
 	const persons = useSelector(state => state.persons.list);
 	const groups = useSelector(state => state.persons.group);
+	const {isAdmin} = useSelector(state => state.admin);
 	const [title, setTitle] = useState('');
 	const [data, setData] = useState([]);
 	const [filterGroup, setFilterGroup] = useState(window.localStorage.getItem('arabic-attendance-group-selected') || '');
@@ -92,7 +91,7 @@ function InfoAttendance (props) {
 				</div>
 			</div>
 			<ul className={cls.list}>
-				{data.map((el) => renderItem(el, changeAttendancePerson, params.id))}
+				{data.map((el) => renderItem(el, changeAttendancePerson, params.id, isAdmin))}
 			</ul>
 		</div>
 	</>);

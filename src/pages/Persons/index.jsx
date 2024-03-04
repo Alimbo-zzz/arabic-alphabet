@@ -3,11 +3,14 @@ import {Animate} from '@/contexts';
 import {Header, Icon } from "@/components";
 import classNames from 'classnames';
 import {Link} from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 import cls from './style.module.scss'
 
 
 function Persons (props) {
+	const {isAdmin} = useSelector(state => state.admin);
+
 
 	const routes = [
 		{
@@ -28,12 +31,12 @@ function Persons (props) {
 			path: 'group', 
 			text: 'Группы'
 		},
-		{
-			styles: {background: "linear-gradient(to bottom, #00ED5F, #00A410)"},
-			icon: 'person-add', 
-			path: 'add-person', 
-			text: 'Добавить человека'
-		},
+		// {
+		// 	styles: {background: "linear-gradient(to bottom, #00ED5F, #00A410)"},
+		// 	icon: 'person-add', 
+		// 	path: 'add-person', 
+		// 	text: 'Добавить человека'
+		// },
 	]
 
 

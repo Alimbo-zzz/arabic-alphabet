@@ -1,0 +1,9 @@
+{
+	"gradeVariants": [1,2,3,4,5],
+	"attendanceVariants": ["attend", "reason", "absent"],
+	"attendanceData": [
+		{	"value":"absent", "icon":"minus", "color":"#C92E23" },
+		{	"value":"reason", "icon":"reason", "color":"#DCAF29" },
+		{	"value":"attend", "icon":"tick", "color":"#33C92F" }
+	]
+}
