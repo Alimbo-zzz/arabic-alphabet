@@ -32,6 +32,14 @@
 			scale: 0;
 			opacity: 0;
 		}
+
+
+		img{			
+			scale: 0;
+			opacity: 0;
+			width: 75%;
+		}
+
 	}
 
 
@@ -49,6 +57,11 @@
 	&__inp:checked + .checkbox__style{
 		.checkbox__tick{ opacity: 1;	transform: scale(1); }
 		background: currentColor;
+		
+		img{			
+			scale: 1;
+			opacity: 1;
+		}
 
 		svg{
 			scale: 1;

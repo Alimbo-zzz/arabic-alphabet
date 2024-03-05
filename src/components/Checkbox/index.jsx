@@ -12,12 +12,13 @@ function Checkbox ({size=16, className='', type='circle', ...props}) {
 			<input className={cls.checkbox__inp} type="checkbox" {...props}/>
 			<div className={cls.checkbox__style} >
 				<div data-name='element'/>
-				<svg>
+				{/* <svg>
 					<use 
 						xlinkHref={`${sprite}#tick`} 
 						href={`${sprite}#tick`} 
 					/>
-				</svg>
+				</svg> */}
+				<img src={tick} />
 			</div>
 		</label>
 	</>);
