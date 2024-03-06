@@ -18,15 +18,18 @@ function InfoPerson (props) {
 	const [personData, setPersonData] = useState({});
 	const [formOpen, setFormOpen] = useState(false);
 	const [inpPhone, setInpPhone] = useState('');
+	const [inpRename, setInpRename] = useState('');
 	const [formPhoneValid, setFormPhoneValid] = useState(false);
+	const [formRenameValid, setFormRenameValid] = useState(false);
 	const formRef = useRef(null);
+	const formRenameRef = useRef(null);
 	const formActions = useRef(null);
 	const [openSelectGroup, setOpenSelectGroup] = useState(false);
 	const [selectGroupValue, setSelectGroupValue] = useState(null);
 	const [lessons, setLessons] = useState([]);
 	const [formActionsOpen, setFormActionsOpen] = useState(false);
+	const [formRenameOpen, setFormRenameOpen] = useState(false);
 	const [actionsData, setActionsData] = useState({grade: null, attendance: null, id: null})
-
 
 	useEffect(()=>{
 		const findPerson = list.find(el => el.id === personId);
@@ -67,9 +70,11 @@ function InfoPerson (props) {
 	useEffect(()=>{
 		document.addEventListener('click', closeFormPhone);
 		document.addEventListener('click', closeFormActions);
+		document.addEventListener('click', closeFormRename);
 		return (e) => {
 			document.removeEventListener('click', closeFormPhone);
 			document.removeEventListener('click', closeFormActions);
+			document.removeEventListener('click', closeFormRename);
 		}
 	}, [])
 
@@ -77,12 +82,27 @@ function InfoPerson (props) {
 		if(inpPhone.length < 11) setFormPhoneValid(false);
 		else setFormPhoneValid(true);
 	}, [inpPhone])
+	useEffect(()=>{
+		if(inpRename.trim().length < 4) setFormRenameValid(false);
+		else setFormRenameValid(true);
+	}, [inpRename])
 
 	const back = () => navigate(-1);
 	function closeFormPhone() {setFormOpen(false); setInpPhone('') }
 	function closeFormActions() {setFormActionsOpen(false)}
 
-
+	function openFormRename(e){
+		e.stopPropagation();
+		console.log(personData.name)
+		setInpRename(personData?.name || '')
+		setFormRenameOpen(true);
+		const inp = formRenameRef?.current?.querySelector('input');
+		if(inp) inp.focus();
+	};
+	function closeFormRename(){
+		setInpRename('')
+		setFormRenameOpen(false);
+	};
 
 	const openFormPhone = (e) => {
 		e.stopPropagation();
@@ -98,6 +118,8 @@ function InfoPerson (props) {
 		actions.changePerson({...findPerson, phone: inpPhone})
 		closeFormPhone();
 	}
+
+	
 
 	const deletePhone = () => {
 		const findPerson = list.find(el => el.id === personId);
@@ -221,6 +243,12 @@ function InfoPerson (props) {
 	}
 	
 
+	const sendFormRename = (e) => {
+		e.preventDefault();		
+		const findPerson = list.find(el => el.id === personId);
+		actions.changePerson({...findPerson, name: inpRename})
+		closeFormRename();
+	}
 
 	const getLessonName = () => attendance.find(el => el.id === actionsData?.id)?.name;
 
@@ -271,6 +299,19 @@ function InfoPerson (props) {
 							</div>
 						</div>
 					</form>
+					<form ref={formRenameRef} onClick={e => e.stopPropagation()} onReset={closeFormRename} onSubmit={sendFormRename} className={cls.form} data-open={formRenameOpen}>
+						<div className={classNames([cls.form__cont, 'container'])}>
+							<div className={cls.form__head}>
+								<h3 className={cls.form__title}>Имя персоны</h3>
+								<button type='reset'><Icon name='cross'/></button>
+							</div>
+							<input value={inpRename} onChange={e => setInpRename(e.target.value)} placeholder='Введите имя, фамилию' type="text"  />	
+							<div className={cls.form__btns}>
+								<div/>
+								<button disabled={!formRenameValid} type='submit' >Сохранить</button>
+							</div>
+						</div>
+					</form>
 					<form className={cls.actions} ref={formActions} onClick={e => e.stopPropagation()} onReset={closeFormActions} onSubmit={sendActions} data-open={formActionsOpen} >
 						<div className="container">
 							<div className={cls.actions__wrap}>
@@ -287,7 +328,7 @@ function InfoPerson (props) {
 					</form>
 					<div className={cls.head}>
 						<div className={classNames([cls.head__cont, 'container'])}>
-							<h4 className={cls.head__title}>{personData?.name}</h4>
+							<h4 className={cls.head__title} onClick={openFormRename}>{personData?.name}</h4>
 							<button onClick={back} className={cls.head__close}><Icon name='cross'/></button>
 						</div>
 					</div>

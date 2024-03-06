@@ -34,18 +34,24 @@ function App(props) {
 			const persons = await personsAPI.json();
 			const groups = await groupsAPI.json();
 
+			let groupsData = [...groups];
+			let personsData = [...persons];
+
 			if(!Array.isArray(groups)) return ;
 			defaultGroups.forEach((d_group, i) => {
 				let isExist = false;
 				groups.find(el => (el.id === d_group.id) && (isExist = true) )
-				if(!isExist) actions.addGroup({name: d_group.name, id: d_group.id});
+				if(!isExist) groupsData.unshift({name: d_group.name, id: d_group.id, data: d_group.persons.map(el => el.id)});
 				
-				d_group.persons.forEach((person, person_i) => {
+				d_group.persons.forEach(person => {
 					let isExist = false;
-					persons.find(el => (el.id === `person-${person_i}`) && (isExist = true))
-					if(!isExist) actions.addPerson({name: person.name, group: d_group.id, phone: person.phone, id: `person-${person_i}`});
+					persons.find(el => (el.id === person.id) && (isExist = true))
+					if(!isExist) personsData.unshift({group: d_group.id, ...person});
 				})
 			})
+			
+			setDataOnLS('persons', personsData)
+			setDataOnLS('groups', groupsData)
 		} catch (error) {
 			console.log(error)
 		}
@@ -97,9 +103,8 @@ function App(props) {
 	
 	useEffect(checkAdmin,[])
 	useEffect(stateSetter,[serverData])
-	useEffect(() => { 
-		setDefaultData().finally(getServerData);
-	},[])
+	useEffect(() => {	getServerData() },[])
+	// useEffect(() => { setDefaultData() },[])
 
 
 	function setDataOnLS(name='', data=[]){
@@ -116,7 +121,7 @@ function App(props) {
 			redirect: "follow"
 		};
 
-		fetch(`${baseURL}/setData?type=attendance`, requestOptions)
+		fetch(`${baseURL}/setData`, requestOptions)
 			.then((response) => response.text())
 			.then((result) => console.log(result))
 			.catch((error) => console.error(error));

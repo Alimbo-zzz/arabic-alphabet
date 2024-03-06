@@ -12,7 +12,7 @@ function AddAttendance (props) {
 	const {addAttendance} = useActions();
 	const [attendanceName, setAttendanceName] = useState('');
 	const [isValid, setIsValid] = useState(false);
-	const [isGraph, setIsGraph] = useState(false);
+	const [isGraph, setIsGraph] = useState(true);
 
 
 
