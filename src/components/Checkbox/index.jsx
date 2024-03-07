@@ -5,10 +5,10 @@ import sprite from './sprite.svg';
 import tick from './tick-bold.svg';
 
 
-function Checkbox ({size=16, className='', type='circle', ...props}) {
+function Checkbox ({size=16, className='', type='circle', theme='', ...props}) {
 	
 	return (<>
-		<label style={{fontSize: size}} data-type={type} className={classNames([cls.checkbox, className])}>
+		<label data-theme={theme} style={{fontSize: size}} data-type={type} className={classNames([cls.checkbox, className])}>
 			<input className={cls.checkbox__inp} type="checkbox" {...props}/>
 			<div className={cls.checkbox__style} >
 				<div data-name='element'/>

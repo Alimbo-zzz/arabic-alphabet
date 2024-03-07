@@ -52,12 +52,11 @@ function Select ({width="200px", visible=true, search=false, value="", setter=nu
 	const inpOps = {
 		readOnly: true,
 		onClick: openModal,
-		value: options.find(el => el.value === value)?.label || (setter(options[0]?.value) || placeholder),
+		value: options.find(el => el.value === value)?.label || (placeholder || setter(options[0]?.value)),
 	  placeholder,
 		style:{display: visible ? 'block' : 'none'},
 	}
 	
-
 
 
 	const SelectItemRender = (el, i) => (

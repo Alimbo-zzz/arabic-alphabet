@@ -4,6 +4,7 @@ import Persons from './Persons'
 import Statistic from './Statistic'
 import Testing from './Testing'
 import Graph from './Graph'
+import Survey from './Survey'
 
 
 export {
@@ -12,5 +13,6 @@ export {
 	Persons,
 	Statistic,
 	Testing,
-	Graph
+	Graph,
+	Survey
 };

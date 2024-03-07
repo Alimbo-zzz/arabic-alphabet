@@ -8,27 +8,36 @@ import {Animate} from '@/contexts';
 
 function Main (props) {
 
-	const tiles = [
+	const tiles = [		
+		{
+			route: "/survey",
+			text: "Мусхаф",
+			icon: "test"
+		},
+		{
+			route: "/persons/attendance",
+			text: "Посещаемость",
+			icon: "attendance",
+		},		
+		{
+			route: "/persons/group",
+			text: "Группы",
+			icon: "person-group",
+		},
+		{
+			route: "/persons/list",
+			text: "Люди",
+			icon: "persons"
+		},
 		{
 			route: "/alphabet",
 			text: "Алфавит",
 			icon: "alphabet"
 		},
 		{
-			route: "/persons",
-			text: "Люди",
-			icon: "persons"
-		},
-		// {
-		// 	route: "/statistic",
-		// 	text: "Статистика",
-		// 	icon: "chart"
-		// },
-		{
 			route: "/graph",
-			text: "Чтение Мусхафа",
-			icon: "test",
-			gap: 2
+			text: "Средние баллы",
+			icon: "star",
 		},
 	]
 

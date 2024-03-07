@@ -56,7 +56,7 @@ function GroupPerson (props) {
 		<Animate>
 			<div className={classNames([cls.wrap])}>
 				<div className='container'>
-					<Header title="Группы" nav='/persons'/>
+					<Header title="Группы" />
 					<div className={cls.head}>
 						<Search setter={setSearchValue} />
 						<Link style={{display: isAdmin ? "flex" : "none"}} to='/persons/add-group' className={cls.add_btn}><Icon name='person-group-add'/></Link>

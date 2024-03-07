@@ -6,6 +6,9 @@
 
 	&__title{
 		text-align: center;
+		color: #666;
+		font-weight: 600;
+		text-shadow: 4px 2px 3px rgba($color: #000000, $alpha: 0.1);
 	}
 
 	&__tiles{		
@@ -43,6 +46,7 @@
 			display: flex;
 			align-items: flex-end;
 			justify-content: flex-end;
+			padding-top: 5%;
 		}
 
 		h4{
@@ -53,29 +57,23 @@
 		
 
 		&:nth-child(1){
-			background: rgb(92,21,244);
-			background: linear-gradient(138deg, rgba(92,21,244,1) 0%, rgba(153,71,228,1) 100%);
-			svg{
-				padding: 5%;
-			}
+			background: linear-gradient(138deg, rgba(247,207,73,1) 0%, rgba(203,140,43,1) 100%);	
 		}
 		&:nth-child(2){
-			background: rgb(205,107,107);
 			background: linear-gradient(138deg, rgba(205,107,107,1) 0%, rgba(187,42,42,1) 100%);
-			
-			svg{
-				font-size: 85px;
-				padding-top: 10%;
-			}
-			
-		}
-		&:nth-child(4){
-			background: rgb(37,192,194);
-			background: linear-gradient(138deg, rgba(37,192,194,1) 0%, rgba(45,212,163,1) 100%);
 		}
 		&:nth-child(3){
-			background: rgb(247,207,73);
-			background: linear-gradient(138deg, rgba(247,207,73,1) 0%, rgba(203,140,43,1) 100%);		}
+			background: linear-gradient(to bottom, #CC00FF, #7210BF);
+		}
+		&:nth-child(4){
+			background: linear-gradient(to bottom, #00E0FF, #1080BF);	
+		}
+		&:nth-child(5){
+			background: linear-gradient(138deg, rgba(37,192,194,1) 0%, rgba(45,212,163,1) 100%);
+		}
+		&:nth-child(6){
+			background: linear-gradient(138deg, rgba(92,21,244,1) 0%, rgba(153,71,228,1) 100%);
+		}
 	}
 
 }

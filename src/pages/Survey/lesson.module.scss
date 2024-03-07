@@ -1,0 +1,186 @@
+.wrap{
+	padding-bottom: 20%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	gap: 20px;
+}
+
+.head{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+
+
+.list{	
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	overflow-y: auto;
+	height: 100%;
+	max-width: $phone;
+	margin: 0 auto;
+	width: 100%;
+	padding: 10px;
+	height: 100%;
+}
+
+
+.item{	
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	justify-content: space-between;
+	box-shadow: 2px 2px 5px rgba($color: #000000, $alpha: 0.3);
+	padding: 8px;
+	border-radius: 10px;
+	color: #333;
+	background-color: #fff;
+
+
+
+	&__person{
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__btns{
+		display: flex;
+		gap: 20px;
+		align-items: center;
+	}
+
+
+
+	&__star{
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 35px;
+		aspect-ratio: 1/1;
+		
+		svg{
+			position: absolute;
+			color: #333;
+			font-size: 36px;
+		}
+
+		span{
+			position: absolute;
+			z-index: 10;
+			color: #fff;
+			font-weight: 600;
+			margin-bottom: -0.4em;
+		}
+	}
+}
+
+
+.actions{
+	position: fixed;
+	left: 0;top: 0;
+	width: 100%;
+	background: #fff;
+	z-index: 100;
+	padding: 30px 0;
+	padding-top: 20px;
+	box-shadow: 0 5px 5px rgba($color: #000000, $alpha: 0.2);
+	color: #333;
+	transition: 0.3s;
+
+	opacity: 0;
+	translate: 0 -110%;
+	pointer-events: none;
+
+	&[data-open='true']{
+		opacity: 1;
+		translate: 0;
+		pointer-events: auto;
+	}
+
+	&__wrap{
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	&__title{
+		text-align: center;
+		font-size: 20px;
+	}
+
+	&__grade{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	&__attendance{
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		justify-content: center;
+	}
+
+
+	&__btn{
+		background: linear-gradient(to bottom, #333, #444);
+		color: #fff;
+		border: none;
+		padding: 6px;
+		border-radius: 5px;
+		@include active-anim();
+	}
+}
+
+
+
+.radioGrade{
+	
+	*{transition: 0.15s;}
+
+	input{
+		display: none;
+	}
+
+
+	&__style{
+		position: relative;
+		aspect-ratio: 1/1;
+		width: 60px;
+		border: 3px solid #333;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 50%;
+		padding-bottom: 0.2em;
+
+		span{
+			z-index: 10;
+			font-size: 24px;
+			color: #fff;
+			font-weight: 600;
+			margin-bottom: -0.4em;
+		}
+
+		svg{
+			position: absolute;			
+			color: #333;
+			font-size: 50px;
+		}
+	}
+
+	
+	input:checked + .radioGrade__style {
+		background: #333;
+		span{color: #333;}
+		svg{ color:#fff; }
+	}
+
+}

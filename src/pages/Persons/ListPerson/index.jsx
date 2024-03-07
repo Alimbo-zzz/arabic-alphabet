@@ -76,7 +76,7 @@ function List ({type='base'}) {
 		<Animate>
 			<div className={classNames([cls.wrap])}>
 				<div className='container'>
-					<Header title={isGroupType ? groupName : "Список людей"} nav={-1}/>
+					<Header title={isGroupType ? groupName : "Список людей"}/>
 					<div className={cls.head}>
 						<Search setter={setSearchValue} />
 						<Link style={{display: isAdmin ? "flex" : "none"}} to='/persons/add-person' className={cls.add_btn}> <Icon name='person-add' /> </Link>

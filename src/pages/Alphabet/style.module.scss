@@ -9,21 +9,22 @@
 	gap: 5px;
 	margin: 40px 0;
 	padding-left: 26%;
+	color: rgba(37,192,194,1);
 
-	h4{
-		&:nth-child(4){
-			color: brown;
-		}
-		&:nth-child(3){
-			color: blueviolet;
-		}
-		&:nth-child(2){
-			color: goldenrod;
-		}
-		&:nth-child(1){
-			color: gray;
-		}
-	}
+	// h4{
+	// 	&:nth-child(4){
+	// 		color: brown;
+	// 	}
+	// 	&:nth-child(3){
+	// 		color: blueviolet;
+	// 	}
+	// 	&:nth-child(2){
+	// 		color: goldenrod;
+	// 	}
+	// 	&:nth-child(1){
+	// 		color: gray;
+	// 	}
+	// }
 
 }
 
@@ -87,19 +88,20 @@
 	h4{
 		text-align: center;
 		font-size: 40px;
+		color: rgba(37,192,194,1);
 
-		&:nth-child(1){
-			color: brown;
-		}
-		&:nth-child(2){
-			color: blueviolet;
-		}
-		&:nth-child(3){
-			color: goldenrod;
-		}
-		&:nth-child(4){
-			color: gray;
-		}
+		// &:nth-child(1){
+		// 	color: brown;
+		// }
+		// &:nth-child(2){
+		// 	color: blueviolet;
+		// }
+		// &:nth-child(3){
+		// 	color: goldenrod;
+		// }
+		// &:nth-child(4){
+		// 	color: gray;
+		// }
 	}
 
 	button{
@@ -114,8 +116,8 @@
 		width: 100%;
 		box-shadow: 2px 5px 5px rgba($color: #000000, $alpha: 0.2);
 		background: transparent;
-		border: 1px solid rgb(0,24,105);
-		color: rgb(0,24,105);
+		border: 1px solid rgba(37,192,194,1);
+		color: rgba(37,192,194,1);
 		border-radius: 8px;
 
 		transition: 0.2s;
@@ -126,7 +128,6 @@
 
 		audio{
 			grid-column: 1/5;
-			border: 1px solid red;
 			display: block;
 			height: 20px;
 			width: 100%;
@@ -136,7 +137,7 @@
 		&[data-active='true']{
 			transform: scale(0.9);
 			box-shadow: 0px 0px 0px rgba($color: #000000, $alpha: 0.2);	
-			background: linear-gradient(138deg, rgba(0,24,105,1) 0%, rgba(78,116,191,1) 100%);
+			background: linear-gradient(138deg, rgba(37,192,194,1) 0%, rgba(45,212,163,1) 100%);
 			color: #fff;
 			border-color: transparent;
 			border-radius: 12px;

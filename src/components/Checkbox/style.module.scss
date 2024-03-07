@@ -80,11 +80,6 @@
 	svg, img{
 		display: none;
 	}
- 
-
-
-
-
 
 	.checkbox__style{
 		width: 3em;
@@ -118,4 +113,9 @@
 		}
 	}
 
+}
+
+
+.checkbox[data-theme="red"]{
+	[data-name='element']{background-color: rgba(187,42,42,1);}
 }

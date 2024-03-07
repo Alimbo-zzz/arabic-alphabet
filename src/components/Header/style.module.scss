@@ -5,13 +5,18 @@
 	gap: 10px;
 	width: 100%;
 
+	color: #555;
+
+	*{
+		color: currentColor;
+	}
+
 	&__title{
 		text-align: center;
 		font-size: 26px;
 	}
 
 	a{
-		color: #222;
 		display: block;
 	}
 
@@ -27,7 +32,6 @@
 
 	svg{
 		font-size: 50px;
-		color: #222;
 	}
 
 

@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Alphabet, Main, Persons, Graph, Statistic, Testing } from '@/pages';
+import { Alphabet, Main, Persons, Graph, Statistic, Testing, Survey } from '@/pages';
 import {AnimatePresence} from 'framer-motion';
 import {useSelector} from 'react-redux';
 import {useActions} from '@hooks';
 import { AddPerson, Attendance,  List, GroupPerson, AddGroup, AddAttendance, InfoPerson, InfoAttendance } from '@/pages/Persons/components';
-import GraphGroup from '@/pages/Graph/GraphGroup';
+import SurveyLesson from '@/pages/Survey/Lesson';
 import {AlphabetTest, AddTest, Exam} from '@/pages/Testing/components';
 import defaultGroups from '@data/defaultGroups.json'; 	
-import req from '@/scripts/req';
 
 const baseURL = 'https://arabic-masjid-git-master-alimbo-zzz.vercel.app';
 
@@ -142,7 +141,8 @@ function App(props) {
 					<Route index element={<Main/>}/>
 					<Route path="/alphabet" element={<Alphabet/>}/>
 					<Route path='/graph' element={<Graph/>} />
-					<Route path='/graph/:groupId' element={<GraphGroup/>}/>	
+					<Route path='/survey' element={<Survey/>} />
+					<Route path='/survey/:id' element={<SurveyLesson/>}/>	
 					<Route path="/persons">						
 						<Route index element={<Persons/>}/>
 						<Route path='list' element={<List/>}/>
