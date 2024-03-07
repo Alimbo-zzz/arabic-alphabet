@@ -125,6 +125,7 @@
 			pointer-events: none;
 			background: #333;
 			color: #fff;
+			*{	color: currentColor; }
 		}
 	}
 
