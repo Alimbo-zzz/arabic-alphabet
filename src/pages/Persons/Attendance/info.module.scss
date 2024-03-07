@@ -10,6 +10,34 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-top: 10px;
+
+
+	&__box{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		width: 100%;
+		padding: 0 5px;
+
+		a{
+			background: linear-gradient(-138deg, rgba(205,107,107,1) 0%, rgba(187,42,42,1) 100%);
+			width: 60px;
+			aspect-ratio: 2/1.2;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 10px;
+			box-shadow: 2px 2px 4px rgba($color: #000000, $alpha: 0.2);
+			@include active-anim;
+		}
+
+		svg{
+			font-size: 30px;
+			color: #fff;
+		}
+	}
 }
 
 
@@ -36,7 +64,7 @@
 	box-shadow: 2px 4px 8px rgba($color: #000000, $alpha: 0.3);
 	padding: 8px;
 	border-radius: 10px;
-	background: linear-gradient(to bottom, #666, #333);
+	background: linear-gradient(-138deg, rgba(205,107,107,1) 0%, rgba(187,42,42,1) 100%);
 	color: #fff;
 
 	&__person{

@@ -22,7 +22,7 @@ const renderItem = ({el, click, isAdmin}) => {
 			>
 				<h4 className={cls.item__person}>{el.name}</h4>
 				<div onClick={(e) => click(e, el)} className={cls.item__btns} style={{pointerEvents: isAdmin ? 'auto' : 'none'}}>
-					<Checkbox readOnly checked={el.isRead} type='square' />
+					<Checkbox color={'#e2ac07'} readOnly checked={el.isRead} type='square' />
 					<div className={cls.item__star}>
 						<Icon name="star"/>
 						<span>{el?.grade}</span>
@@ -46,7 +46,7 @@ function Lesson (props) {
 	const [filterGroup, setFilterGroup] = useState('');
 	const {changeAttendancePerson} = useActions();
 	const formActions = useRef(null);
-	const [formActionsOpen, setFormActionsOpen] = useState(false);
+	const [formActionsOpen, setFormActionsOpen] = useState(true);
 	const [actionsData, setActionsData] = useState({grade: null, attendance: null, id: null})
 	const [groupISisLoad, setgroupISisLoad] = useState(false);
 

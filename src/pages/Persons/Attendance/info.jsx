@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import cls from './info.module.scss';
-import {Header, Radio} from '@/components';
+import {Header, Radio, Icon} from '@/components';
 import {ReactSelect} from '@/components/Select';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import { motion, AnimatePresence } from "framer-motion";
 import {useActions} from '@/hooks';
@@ -28,7 +28,7 @@ const renderItem = (el, setter, id, isAdmin) => {
 							defaultChecked={el.status === radio.value} 
 							width="100%"
 							icon={radio.icon}
-							color={radio.color} 
+							color={"#888"} 
 							name={el.id}
 							onChange={e => setter({id, personId: el.id, status: radio.value})}
 						/>
@@ -87,7 +87,10 @@ function InfoAttendance (props) {
 			<div className="container">
 				<div className={cls.head}>
 					<Header title={title} nav={-1}/>
-					<ReactSelect value={filterGroup} setter={setFilterGroup} options={selectOps}/>
+					<div className={cls.head__box}>
+						<ReactSelect value={filterGroup} setter={setFilterGroup} options={selectOps}/>
+						<Link to={'/survey/' + params.id}> <Icon name="test"/> </Link>
+					</div>
 				</div>
 			</div>
 			<ul className={cls.list}>

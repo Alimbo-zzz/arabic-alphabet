@@ -66,7 +66,7 @@
 		
 		svg{
 			position: absolute;
-			color: #333;
+			color: #e2ac07;
 			font-size: 36px;
 		}
 
@@ -130,7 +130,7 @@
 
 
 	&__btn{
-		background: linear-gradient(to bottom, #333, #444);
+		background: linear-gradient(to bottom, #FFD600, #BF7910);
 		color: #fff;
 		border: none;
 		padding: 6px;
@@ -149,12 +149,13 @@
 		display: none;
 	}
 
+	// background: linear-gradient(to bottom, #FFD600, #BF7910);
 
 	&__style{
 		position: relative;
 		aspect-ratio: 1/1;
 		width: 60px;
-		border: 3px solid #333;
+		border: 3px solid #e2ac07;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -171,15 +172,15 @@
 
 		svg{
 			position: absolute;			
-			color: #333;
+			color: #e2ac07;
 			font-size: 50px;
 		}
 	}
 
 	
 	input:checked + .radioGrade__style {
-		background: #333;
-		span{color: #333;}
+		background: #e2ac07;
+		span{color: #e2ac07;}
 		svg{ color:#fff; }
 	}
 
